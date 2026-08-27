@@ -81,11 +81,13 @@
 
       {% if section.settings.show_trust_bar %}
         <div class="custom-navbar__trust-bar" aria-label="{{ section.settings.trust_bar_label | escape }}">
-          {% for block in section.blocks %}
-            {% if block.type == 'trust_item' %}
-              {% render 'custom-navbar-trust-item', text: block.settings.text, attributes: block.shopify_attributes %}
-            {% endif %}
-          {% endfor %}
+          <div class="custom-navbar__trust-content">
+            {% for block in section.blocks %}
+              {% if block.type == 'trust_item' %}
+                {% render 'custom-navbar-trust-item', text: block.settings.text, attributes: block.shopify_attributes %}
+              {% endif %}
+            {% endfor %}
+          </div>
         </div>
       {% endif %}
     </div>
@@ -103,11 +105,30 @@
 </custom-navbar>
 
 {% stylesheet %}
+  .custom-navbar-section.shopify-section {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: none;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+  }
+
+  .custom-navbar-section.shopify-section > .custom-navbar {
+    grid-column: 1 / -1;
+  }
+
   .custom-navbar {
     --custom-navbar-global-padding: clamp(20px, 5.56vw, 80px);
     position: relative;
     z-index: 20;
     display: block;
+    width: 100%;
+    max-width: none;
+    padding: 20px 20px 0;
+    border: 0;
+    outline: 0;
+    box-shadow: none;
+    background: transparent;
     color: var(--custom-navbar-text, #111111);
     font-family: var(--font-primary--family, Montserrat, sans-serif);
   }
@@ -122,8 +143,10 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
     padding: 24px 48px 16px;
-    background: var(--custom-navbar-background, #ffffff);
+    background: transparent;
   }
 
   .custom-navbar__hero-logo,
@@ -263,6 +286,8 @@
     align-items: center;
     justify-content: space-between;
     width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
     padding: 16px var(--custom-navbar-global-padding);
   }
 
@@ -281,15 +306,21 @@
   }
 
   .custom-navbar__trust-bar {
-    display: flex;
-    align-items: center;
-    gap: 24px;
     width: 100%;
-    padding: 0 var(--custom-navbar-global-padding);
     overflow-x: auto;
     background: var(--custom-navbar-accent, #fffbe3);
     color: var(--custom-navbar-trust-text, #4d4e4d);
     scrollbar-width: none;
+  }
+
+  .custom-navbar__trust-content {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    max-width: 1280px;
+    margin-inline: auto;
+    padding: 0 var(--custom-navbar-global-padding);
   }
 
   .custom-navbar__trust-bar::-webkit-scrollbar {
@@ -322,7 +353,7 @@
   .custom-navbar__popover {
     position: absolute;
     top: 94px;
-    right: 60px;
+    right: max(60px, calc((100vw - 1280px) / 2 + 60px));
     z-index: 40;
     width: 247px;
     padding: 24px;
@@ -360,6 +391,10 @@
   }
 
   @media (max-width: 767px) {
+    .custom-navbar {
+      padding: 8px 8px 0;
+    }
+
     .custom-navbar__hero {
       padding: 24px 20px 16px;
     }
@@ -408,7 +443,7 @@
       display: none;
     }
 
-    .custom-navbar__trust-bar {
+    .custom-navbar__trust-content {
       gap: 8px;
       padding: 0 8px;
     }
@@ -609,7 +644,7 @@
       "step": 10,
       "unit": "px",
       "label": "Show after scrolling",
-      "default": 120
+      "default": 10
     },
     {
       "type": "checkbox",

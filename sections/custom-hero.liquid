@@ -1,0 +1,595 @@
+<section
+  id="CustomHero-{{ section.id }}"
+  class="custom-hero full-width"
+  style="
+    --custom-hero-background: {{ section.settings.background_color }};
+    --custom-hero-primary: {{ section.settings.text_color }};
+    --custom-hero-secondary: {{ section.settings.secondary_text_color }};
+    --custom-hero-tertiary: {{ section.settings.tertiary_text_color }};
+    --custom-hero-border: {{ section.settings.border_color }};
+    --custom-hero-button-primary: {{ section.settings.primary_button_color }};
+  "
+>
+  <div class="custom-hero__frame">
+    <div class="custom-hero__product" aria-hidden="true">
+      {% if section.settings.product_image != blank %}
+        {{
+          section.settings.product_image
+          | image_url: width: 1400
+          | image_tag:
+            class: 'custom-hero__product-image',
+            widths: '500, 700, 900, 1100, 1400',
+            sizes: '(max-width: 767px) 346px, (max-width: 1023px) 438px, 630px',
+            loading: 'eager'
+        }}
+      {% else %}
+        <img
+          class="custom-hero__product-image"
+          src="{{ 'custom-hero-product-desktop.png' | asset_url }}"
+          width="837"
+          height="1024"
+          alt=""
+          loading="eager"
+        >
+      {% endif %}
+    </div>
+
+    <div class="custom-hero__dog" aria-hidden="true">
+      <div class="custom-hero__dog-crop">
+        {% if section.settings.dog_image != blank %}
+          {{
+            section.settings.dog_image
+            | image_url: width: 2000
+            | image_tag:
+              class: 'custom-hero__dog-image',
+              widths: '500, 800, 1200, 1600, 2000',
+              sizes: '343px',
+              loading: 'eager'
+          }}
+        {% else %}
+          <img
+            class="custom-hero__dog-image"
+            src="{{ 'custom-hero-dog-desktop.png' | asset_url }}"
+            width="2000"
+            height="1334"
+            alt=""
+            loading="eager"
+          >
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="custom-hero__content">
+      <div class="custom-hero__copy">
+        <h1 class="custom-hero__heading">
+          <span class="custom-hero__heading-text custom-hero__heading-text--desktop">
+            {{ section.settings.heading_desktop | escape }}
+          </span>
+          <span class="custom-hero__heading-text custom-hero__heading-text--compact">
+            {{ section.settings.heading_compact | escape }}
+          </span>
+        </h1>
+
+        <div class="custom-hero__details">
+          <p class="custom-hero__description custom-hero__description--desktop">
+            {{ section.settings.description_desktop | escape }}
+          </p>
+          <p class="custom-hero__description custom-hero__description--compact">
+            {{ section.settings.description_compact | escape }}
+          </p>
+
+          <div class="custom-hero__trust" aria-label="{{ section.settings.trust_label | escape }}">
+            {% for block in section.blocks %}
+              {% render 'custom-hero-trust-item', text: block.settings.text, attributes: block.shopify_attributes %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <div class="custom-hero__buttons">
+        {% if section.settings.primary_button_label != blank %}
+          <a class="custom-hero__button custom-hero__button--primary" href="{{ section.settings.primary_button_url }}">
+            {{ section.settings.primary_button_label | escape }}
+          </a>
+        {% endif %}
+
+        {% if section.settings.secondary_button_label != blank %}
+          <a class="custom-hero__button custom-hero__button--secondary" href="{{ section.settings.secondary_button_url }}">
+            {{ section.settings.secondary_button_label | escape }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if section.settings.disclaimer != blank %}
+      <p class="custom-hero__disclaimer">{{ section.settings.disclaimer | escape }}</p>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .custom-hero {
+    position: relative;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    margin-top: -112px;
+    padding: 20px;
+    color: var(--custom-hero-primary, #111111);
+    font-family: var(--font-primary--family, Montserrat, sans-serif);
+  }
+
+  .custom-hero__frame {
+    position: relative;
+    width: 100%;
+    max-width: 1280px;
+    height: 811px;
+    margin-inline: auto;
+    overflow: hidden;
+    border: 1.5px solid var(--custom-hero-border, #111111);
+    border-radius: 40px;
+    background: var(--custom-hero-background, #eacef9);
+  }
+
+  .custom-hero__content {
+    position: absolute;
+    top: 244px;
+    left: 38px;
+    z-index: 2;
+    display: flex;
+    width: min(68%, 800px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 48px;
+  }
+
+  .custom-hero__copy {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .custom-hero__heading {
+    width: 100%;
+    margin: 0;
+    color: var(--custom-hero-primary, #111111);
+    font-size: clamp(60px, 5.56vw, 80px);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .custom-hero__heading-text {
+    display: block;
+  }
+
+  .custom-hero__heading-text--compact,
+  .custom-hero__description--compact {
+    display: none;
+  }
+
+  .custom-hero__details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .custom-hero__description {
+    width: 497px;
+    max-width: 100%;
+    margin: 0;
+    color: var(--custom-hero-secondary, #4d4e4d);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .custom-hero__trust {
+    display: grid;
+    grid-template-columns: 240px max-content;
+    column-gap: 24px;
+  }
+
+  .custom-hero__trust-item {
+    display: flex;
+    min-height: 37px;
+    align-items: center;
+    gap: 8px;
+    padding-block: 8px;
+    border-radius: 16px;
+    color: var(--custom-hero-secondary, #4d4e4d);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .custom-hero__trust-icon,
+  .custom-hero__trust-icon svg {
+    display: block;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .custom-hero__buttons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .custom-hero__button {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    border: 1px solid var(--custom-hero-border, #111111);
+    border-radius: 1000px;
+    box-shadow: 3px 3px 0 var(--custom-hero-border, #111111);
+    color: var(--custom-hero-primary, #111111);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .custom-hero__button--primary {
+    background: var(--custom-hero-button-primary, #9fdade);
+  }
+
+  .custom-hero__button--secondary {
+    background: var(--custom-hero-background, #eacef9);
+  }
+
+  .custom-hero__disclaimer {
+    position: absolute;
+    bottom: 20px;
+    left: 38px;
+    z-index: 4;
+    width: min(68%, 800px);
+    margin: 0;
+    color: var(--custom-hero-tertiary, #8b8b8b);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .custom-hero__product {
+    position: absolute;
+    top: 154px;
+    right: -1px;
+    z-index: 1;
+    width: 630px;
+    height: 703px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .custom-hero__product-image {
+    position: absolute;
+    top: -8.25%;
+    left: 4.36%;
+    width: 98.73%;
+    height: 108.25%;
+    max-width: none;
+  }
+
+  .custom-hero__dog {
+    position: absolute;
+    top: 41px;
+    left: -108px;
+    z-index: 3;
+    width: 274px;
+    height: 274px;
+    transform: rotate(68deg);
+    pointer-events: none;
+  }
+
+  .custom-hero__dog-crop {
+    position: absolute;
+    top: 32px;
+    left: 31px;
+    width: 211.197px;
+    height: 209.77px;
+    overflow: hidden;
+  }
+
+  .custom-hero__dog-image {
+    position: absolute;
+    top: -8.87%;
+    left: -62.16%;
+    width: 162.16%;
+    height: 108.9%;
+    max-width: none;
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .custom-hero__content {
+      top: 207px;
+      width: calc(100% - 76px);
+      gap: 64px;
+    }
+
+    .custom-hero__heading {
+      font-size: clamp(58px, 7.8vw, 68px);
+    }
+
+    .custom-hero__heading-text--desktop,
+    .custom-hero__description--desktop {
+      display: none;
+    }
+
+    .custom-hero__heading-text--compact,
+    .custom-hero__description--compact {
+      display: block;
+    }
+
+    .custom-hero__product {
+      top: 358px;
+      right: 3px;
+      width: 438px;
+      height: 489px;
+    }
+
+    .custom-hero__dog {
+      top: 579px;
+      left: -148px;
+      width: 297px;
+      height: 296px;
+      transform: rotate(40deg);
+    }
+
+    .custom-hero__dog-crop {
+      top: 43px;
+      left: 43px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .custom-hero {
+      margin-top: -92px;
+      padding: 8px;
+    }
+
+    .custom-hero__frame {
+      height: 811px;
+      border-radius: 40px;
+    }
+
+    .custom-hero__content {
+      top: 124px;
+      left: 14px;
+      width: calc(100% - 28px);
+      gap: 64px;
+    }
+
+    .custom-hero__heading {
+      font-size: clamp(38px, 10.25vw, 42px);
+      line-height: 1.15;
+    }
+
+    .custom-hero__heading-text--desktop,
+    .custom-hero__description--desktop {
+      display: none;
+    }
+
+    .custom-hero__heading-text--compact,
+    .custom-hero__description--compact {
+      display: block;
+    }
+
+    .custom-hero__description {
+      width: 100%;
+      font-size: 16px;
+    }
+
+    .custom-hero__details {
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .custom-hero__trust {
+      display: flex;
+      width: max-content;
+      flex-wrap: nowrap;
+      gap: 20px;
+    }
+
+    .custom-hero__buttons {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .custom-hero__product {
+      top: 492px;
+      right: 0;
+      width: 346px;
+      height: 386px;
+    }
+
+    .custom-hero__dog {
+      top: 27px;
+      left: -88px;
+      width: 188px;
+      height: 187px;
+      transform: rotate(40deg);
+    }
+
+    .custom-hero__dog-crop {
+      top: 27px;
+      left: 27px;
+      width: 133.527px;
+      height: 132.625px;
+    }
+
+    .custom-hero__disclaimer {
+      bottom: 18px;
+      left: 14px;
+      width: 271px;
+      color: var(--custom-hero-secondary, #4d4e4d);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom Hero",
+  "tag": "section",
+  "class": "custom-hero-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "heading_desktop",
+      "label": "Desktop heading",
+      "default": "A daily wellbeing ritual for dogs"
+    },
+    {
+      "type": "text",
+      "id": "heading_compact",
+      "label": "Tablet and mobile heading",
+      "default": "A DAILY “wellbeing” RITUAL FOR DOGS"
+    },
+    {
+      "type": "textarea",
+      "id": "description_desktop",
+      "label": "Desktop description",
+      "default": "Vet-formulated daily support for your dog’s foundations — simple enough to stick with, designed to support healthy ageing over time."
+    },
+    {
+      "type": "textarea",
+      "id": "description_compact",
+      "label": "Tablet and mobile description",
+      "default": "Thoughtfully formulated with essential nutrients to support everyday health, comfort, and vitality. Designed to fit naturally into your dog's daily routine."
+    },
+    {
+      "type": "text",
+      "id": "trust_label",
+      "label": "Trust points accessible label",
+      "default": "Product assurances"
+    },
+    {
+      "type": "text",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "* For dogs only. Not intended to diagnose, treat, cure or prevent disease."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "primary_button_label",
+      "label": "Primary button label",
+      "default": "Join the waitlist"
+    },
+    {
+      "type": "url",
+      "id": "primary_button_url",
+      "label": "Primary button link"
+    },
+    {
+      "type": "text",
+      "id": "secondary_button_label",
+      "label": "Secondary button label",
+      "default": "See ingredients"
+    },
+    {
+      "type": "url",
+      "id": "secondary_button_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product image"
+    },
+    {
+      "type": "image_picker",
+      "id": "dog_image",
+      "label": "Dog image"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#EACEF9"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Heading and button text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "secondary_text_color",
+      "label": "Body and trust text",
+      "default": "#4D4E4D"
+    },
+    {
+      "type": "color",
+      "id": "tertiary_text_color",
+      "label": "Disclaimer text",
+      "default": "#8B8B8B"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border and shadow",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "primary_button_color",
+      "label": "Primary button",
+      "default": "#9FDADE"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Vet-formulated"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 4,
+  "presets": [
+    {
+      "name": "Custom Hero",
+      "blocks": [
+        { "type": "trust_item", "settings": { "text": "Vet-formulated" } },
+        { "type": "trust_item", "settings": { "text": "Australian owned & made" } },
+        { "type": "trust_item", "settings": { "text": "Loved by dogs (palatability tested)" } },
+        { "type": "trust_item", "settings": { "text": "Ships from Australia" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

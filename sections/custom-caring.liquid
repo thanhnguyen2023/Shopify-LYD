@@ -1,0 +1,202 @@
+<section
+  id="CustomCaring-{{ section.id }}"
+  class="custom-caring full-width"
+  style="
+    --custom-caring-text: {{ section.settings.text_color }};
+    --custom-caring-secondary: {{ section.settings.secondary_text_color }};
+  "
+>
+  <div class="custom-caring__inner">
+    <div class="custom-caring__media">
+      {% if section.settings.image != blank %}
+        {{
+          section.settings.image
+          | image_url: width: 1600
+          | image_tag:
+            class: 'custom-caring__image',
+            widths: '375, 600, 800, 1200, 1600',
+            sizes: '(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 160px), 50vw',
+            loading: 'lazy'
+        }}
+      {% endif %}
+    </div>
+
+    <div class="custom-caring__copy">
+      <div class="custom-caring__heading-wrap">
+        <h2>{{ section.settings.heading | escape | newline_to_br }}</h2>
+        <img class="custom-caring__heading-accent" src="{{ 'custom-caring-heading-accent.svg' | asset_url }}" width="12.04" height="37.814" alt="">
+      </div>
+      <p>{{ section.settings.description | escape }}</p>
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .custom-caring {
+    display: block;
+    width: 100%;
+    padding: 80px clamp(20px, 5.56vw, 80px);
+    color: var(--custom-caring-text, #111111);
+    font-family: var(--font-primary--family, Montserrat, sans-serif);
+  }
+
+  .custom-caring__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    max-width: 1280px;
+    margin-inline: auto;
+    align-items: center;
+    gap: 64px;
+  }
+
+  .custom-caring__media {
+    position: relative;
+    width: 100%;
+    border-radius: 24px;
+  }
+
+  .custom-caring__image {
+    display: block;
+    width: 100%;
+    max-width: none;
+    height: auto;
+    border-radius: 24px;
+  }
+
+  .custom-caring__copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 24px;
+  }
+
+  .custom-caring__heading-wrap {
+    position: relative;
+    width: 534px;
+    max-width: 100%;
+  }
+
+  .custom-caring h2 {
+    margin: 0;
+    color: var(--custom-caring-text, #111111);
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .custom-caring__heading-accent {
+    position: absolute;
+    top: 66px;
+    right: 133px;
+    width: 12.04px;
+    height: 37.814px;
+  }
+
+  .custom-caring__copy > p {
+    width: 457px;
+    max-width: 100%;
+    margin: 0;
+    color: var(--custom-caring-secondary, #4d4e4d);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .custom-caring__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .custom-caring__copy {
+      order: -1;
+    }
+
+    .custom-caring__heading-wrap,
+    .custom-caring__copy > p {
+      width: 100%;
+    }
+
+    .custom-caring__heading-accent {
+      right: 10px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .custom-caring {
+      padding: 64px 16px;
+    }
+
+    .custom-caring__inner {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 64px;
+    }
+
+    .custom-caring__copy {
+      order: -1;
+    }
+
+    .custom-caring__heading-wrap,
+    .custom-caring__copy > p {
+      width: 100%;
+    }
+
+    .custom-caring h2 {
+      font-size: 36px;
+    }
+
+    .custom-caring__heading-accent {
+      top: 46px;
+      right: 98px;
+    }
+
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom Caring",
+  "tag": "section",
+  "class": "custom-caring-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Caring for your dog\nshouldn’t feel complicated"
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Description",
+      "default": "Modern dog life is busy. Between work, family, and routines, consistency is often the first thing to slip — especially when supplements are messy, hard to dose, or difficult to maintain long term."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Heading color",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "secondary_text_color",
+      "label": "Description color",
+      "default": "#4D4E4D"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Caring"
+    }
+  ]
+}
+{% endschema %}

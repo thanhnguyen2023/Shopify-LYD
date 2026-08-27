@@ -1,0 +1,256 @@
+<section
+  id="CustomMeetLoveYouDaily-{{ section.id }}"
+  class="custom-meet"
+  style="--custom-meet-text: {{ section.settings.text_color }}; --custom-meet-secondary: {{ section.settings.secondary_text_color }};"
+>
+  <div class="custom-meet__inner">
+    <h2>{{ section.settings.heading | escape }}</h2>
+
+    <div class="custom-meet__stage">
+      <div class="custom-meet__intro">
+        <h3>{{ section.settings.support_heading | escape | newline_to_br }}</h3>
+        <p>{{ section.settings.support_text | escape }}</p>
+      </div>
+
+      <div class="custom-meet__products" aria-hidden="true">
+        <img class="custom-meet__product custom-meet__product--small" src="{{ 'custom-meet-product-small.png' | asset_url }}" width="342" height="364" alt="">
+        <img class="custom-meet__product custom-meet__product--large" src="{{ 'custom-meet-product-large.png' | asset_url }}" width="674" height="559" alt="">
+      </div>
+
+    </div>
+
+    <div class="custom-meet__description-layout">
+      <p class="custom-meet__description">{{ section.settings.description | escape }}</p>
+    </div>
+
+    <div class="custom-meet__features">
+      {% for block in section.blocks %}
+        {% render 'custom-meet-feature', block: block %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% stylesheet %}
+  .custom-meet {
+    width: 100%;
+    padding: 80px clamp(20px, 5.56vw, 80px);
+    color: var(--custom-meet-text, #111111);
+    font-family: var(--font-primary--family, Montserrat, sans-serif);
+    overflow: hidden;
+  }
+
+  .custom-meet__inner {
+    width: min(100%, 1280px);
+    margin-inline: auto;
+  }
+
+  .custom-meet h2,
+  .custom-meet h3,
+  .custom-meet p { margin: 0; }
+
+  .custom-meet h2 {
+    font-size: 52px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+  }
+
+  .custom-meet__stage {
+    position: relative;
+    height: 530px;
+    margin-top: 64px;
+  }
+
+  .custom-meet__intro {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 380px;
+  }
+
+  .custom-meet h3 {
+    font-size: 40px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .custom-meet__intro p,
+  .custom-meet__description,
+  .custom-meet__feature p {
+    color: var(--custom-meet-secondary, #4d4e4d);
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  .custom-meet__intro p {
+    width: 215px;
+    margin-top: 24px;
+  }
+
+  .custom-meet__products {
+    position: absolute;
+    top: -129px;
+    left: 248px;
+    width: 870px;
+    height: 755px;
+    pointer-events: none;
+  }
+
+  .custom-meet__product {
+    position: absolute;
+    display: block;
+    filter: drop-shadow(8px 8px 20px rgb(0 0 0 / 25%));
+  }
+
+  .custom-meet__product--small {
+    bottom: 78px;
+    left: 0;
+    width: 342px;
+    height: auto;
+  }
+
+  .custom-meet__product--large {
+    top: 0;
+    left: 45px;
+    width: 674px;
+    height: auto;
+    transform: rotate(-19.9deg);
+  }
+
+  .custom-meet__description {
+    display: block;
+    width: 396px;
+    max-width: 100%;
+    box-sizing: border-box;
+    text-align: right;
+  }
+
+  .custom-meet__description-layout {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    padding-top: 1.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .custom-meet__features {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px;
+    margin-top: 0;
+  }
+
+  .custom-meet__feature {
+    display: flex;
+    min-width: 0;
+    min-height: 144px;
+    padding: 16px 24px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border: 1px solid var(--custom-meet-text, #111111);
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 4px 4px 0 var(--custom-meet-text, #111111);
+    text-align: center;
+  }
+
+  .custom-meet__feature-icon { width: 32px; height: 32px; flex: 0 0 auto; }
+  .custom-meet__feature p { width: 100%; }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .custom-meet__stage { height: 652px; }
+    .custom-meet__products { top: -61px; left: 76px; }
+    .custom-meet__product--small { bottom: 174px; }
+    .custom-meet__features {
+      grid-template-columns: repeat(3, 240px);
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .custom-meet {
+      padding: 64px 16px;
+    }
+
+    .custom-meet h2 { font-size: 28px; }
+    .custom-meet__stage { height: 602px; margin-top: 64px; }
+    .custom-meet__intro { width: 100%; }
+    .custom-meet h3 { font-size: 40px; }
+    .custom-meet__products {
+      top: -62px;
+      left: 50%;
+      width: 500px;
+      height: 755px;
+      transform: translateX(-50%);
+    }
+    .custom-meet__product--small {
+      bottom: 239px;
+      left: 84px;
+      width: 167px;
+    }
+    .custom-meet__product--large {
+      top: 233px;
+      left: 106px;
+      width: 328px;
+    }
+    .custom-meet__description {
+      width: 343px;
+      font-size: 14px;
+    }
+    .custom-meet__features {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      margin-top: 0;
+    }
+    .custom-meet__feature {
+      width: 240px;
+      min-height: 0;
+      padding: 12px 16px;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Custom Meet Daily",
+  "tag": "section",
+  "class": "custom-meet-love-you-daily-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Meet Love You Daily" },
+    { "type": "textarea", "id": "support_heading", "label": "Support heading", "default": "What Love You\nDaily supports" },
+    { "type": "textarea", "id": "support_text", "label": "Support text", "default": "Designed to be used daily as part of a balanced diet." },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Love You Daily is a once-daily dog supplement designed to support everyday wellbeing through consistency." },
+    { "type": "color", "id": "text_color", "label": "Heading color", "default": "#111111" },
+    { "type": "color", "id": "secondary_text_color", "label": "Body color", "default": "#4D4E4D" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Feature",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Supports overall wellbeing as dogs age" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Meet Daily",
+      "blocks": [
+        { "type": "feature", "settings": { "text": "Supports overall wellbeing as dogs age" } },
+        { "type": "feature", "settings": { "text": "Supports skin and coat condition" } },
+        { "type": "feature", "settings": { "text": "Supports digestive comfort and gut balance" } },
+        { "type": "feature", "settings": { "text": "Supports normal energy and vitality" } },
+        { "type": "feature", "settings": { "text": "Supports joint structure and mobility" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

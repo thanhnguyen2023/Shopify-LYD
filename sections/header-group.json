@@ -65,7 +65,7 @@
         "cta_label": "Join the waitlist",
         "cta_url": "#waitlist",
         "enable_sticky": true,
-        "sticky_threshold": 120,
+        "sticky_threshold": 10,
         "show_trust_bar": true,
         "trust_bar_label": "Product assurances",
         "background_color": "#FFFFFF",

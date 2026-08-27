@@ -1,0 +1,14 @@
+{% comment %}
+  Renders one trust point in Custom Hero.
+
+  Accepts:
+  - text: item label
+  - attributes: optional Shopify block attributes
+{% endcomment %}
+
+<div class="custom-hero__trust-item" {{ attributes }}>
+  <span class="custom-hero__trust-icon" aria-hidden="true">
+    {% render 'custom-navbar-icon', name: 'seal-check' %}
+  </span>
+  <span>{{ text | escape }}</span>
+</div>

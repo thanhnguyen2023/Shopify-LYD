@@ -1,0 +1,24 @@
+{% comment %}
+  Renders a selected Shopify menu or nav_link blocks as a fallback.
+
+  Accepts:
+  - menu: link_list setting
+  - blocks: section blocks
+  - class: anchor class
+{% endcomment %}
+
+{% if menu != blank %}
+  {% for link in menu.links %}
+    <a class="{{ class }}" href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>
+      {{ link.title | escape }}
+    </a>
+  {% endfor %}
+{% else %}
+  {% for block in blocks %}
+    {% if block.type == 'nav_link' %}
+      <a class="{{ class }}" href="{{ block.settings.url }}" {{ block.shopify_attributes }}>
+        {{ block.settings.label | escape }}
+      </a>
+    {% endif %}
+  {% endfor %}
+{% endif %}

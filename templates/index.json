@@ -10,11 +10,91 @@
 {
   "sections": {
     "main": {
-      "type": "hello-world",
-      "settings": {}
+      "type": "custom-hero",
+      "blocks": {
+        "trust_vet": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Vet-formulated"
+          }
+        },
+        "trust_au": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Australian owned & made"
+          }
+        },
+        "trust_dogs": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Loved by dogs (palatability tested)"
+          }
+        },
+        "trust_shipping": {
+          "type": "trust_item",
+          "settings": {
+            "text": "Ships from Australia"
+          }
+        }
+      },
+      "block_order": [
+        "trust_vet",
+        "trust_au",
+        "trust_dogs",
+        "trust_shipping"
+      ],
+      "settings": {
+        "heading_desktop": "A daily wellbeing ritual for dogs",
+        "heading_compact": "A DAILY “wellbeing” RITUAL FOR DOGS",
+        "description_desktop": "Vet-formulated daily support for your dog’s foundations — simple enough to stick with, designed to support healthy ageing over time.",
+        "description_compact": "Thoughtfully formulated with essential nutrients to support everyday health, comfort, and vitality. Designed to fit naturally into your dog's daily routine.",
+        "trust_label": "Product assurances",
+        "disclaimer": "* For dogs only. Not intended to diagnose, treat, cure or prevent disease.",
+        "primary_button_label": "Join the waitlist",
+        "primary_button_url": "#waitlist",
+        "secondary_button_label": "See ingredients",
+        "secondary_button_url": "#whats-inside",
+        "background_color": "#eacef9",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d",
+        "tertiary_text_color": "#8b8b8b",
+        "border_color": "#111111",
+        "primary_button_color": "#9fdade"
+      }
+    },
+    "custom_caring": {
+      "type": "custom-caring",
+      "settings": {
+        "image": "shopify://shop_images/Container.png",
+        "heading": "Caring for your dog\nshouldn’t feel complicated",
+        "description": "Modern dog life is busy. Between work, family, and routines, consistency is often the first thing to slip — especially when supplements are messy, hard to dose, or difficult to maintain long term.",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d"
+      }
+    },
+    "custom_meet_love_you_daily": {
+      "type": "custom-meet-love-you-daily",
+      "blocks": {
+        "feature_1": { "type": "feature", "settings": { "text": "Supports overall wellbeing as dogs age" } },
+        "feature_2": { "type": "feature", "settings": { "text": "Supports skin and coat condition" } },
+        "feature_3": { "type": "feature", "settings": { "text": "Supports digestive comfort and gut balance" } },
+        "feature_4": { "type": "feature", "settings": { "text": "Supports normal energy and vitality" } },
+        "feature_5": { "type": "feature", "settings": { "text": "Supports joint structure and mobility" } }
+      },
+      "block_order": ["feature_1", "feature_2", "feature_3", "feature_4", "feature_5"],
+      "settings": {
+        "heading": "Meet Love You Daily",
+        "support_heading": "What Love You\nDaily supports",
+        "support_text": "Designed to be used daily as part of a balanced diet.",
+        "description": "Love You Daily is a once-daily dog supplement designed to support everyday wellbeing through consistency.",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "custom_caring",
+    "custom_meet_love_you_daily"
   ]
 }

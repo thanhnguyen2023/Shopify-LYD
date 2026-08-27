@@ -1,0 +1,183 @@
+<custom-simple-design
+  id="CustomSimpleDesign-{{ section.id }}"
+  class="custom-simple"
+  data-interval="4500"
+  style="--custom-simple-background: {{ section.settings.background_color }}; --custom-simple-text: {{ section.settings.text_color }}; --custom-simple-secondary: {{ section.settings.secondary_text_color }}; --custom-simple-progress: {{ section.settings.progress_color }};"
+>
+  <div class="custom-simple__inner">
+    <h2>{{ section.settings.heading | escape }}</h2>
+    <div class="custom-simple__layout">
+      <div class="custom-simple__mobile-summary" aria-live="polite">
+        {% for block in section.blocks %}
+          {% case forloop.index %}
+            {% when 1 %}{% assign simple_icon = 'custom-simple-icon-1.svg' %}
+            {% when 2 %}{% assign simple_icon = 'custom-simple-icon-2.svg' %}
+            {% else %}{% assign simple_icon = 'custom-simple-icon-3.svg' %}
+          {% endcase %}
+          <div class="custom-simple__mobile-copy{% if forloop.first %} is-active{% endif %}" data-simple-copy="{{ forloop.index0 }}" {% unless forloop.first %}hidden{% endunless %}>
+            <img src="{{ simple_icon | asset_url }}" width="52" height="52" alt="">
+            <h3>{{ block.settings.title | escape }}</h3>
+            <p>{{ block.settings.description | escape }}</p>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="custom-simple__media" aria-live="polite">
+        {% for block in section.blocks %}
+          {% case forloop.index %}
+            {% when 1 %}{% assign simple_image = 'custom-simple-step-1.png' %}
+            {% when 2 %}{% assign simple_image = 'custom-simple-step-2.png' %}
+            {% else %}{% assign simple_image = 'custom-simple-step-3.png' %}
+          {% endcase %}
+          <div id="custom-simple-panel-{{ section.id }}-{{ forloop.index0 }}" class="custom-simple__panel{% if forloop.first %} is-active{% endif %}" data-simple-panel="{{ forloop.index0 }}" {% unless forloop.first %}hidden{% endunless %}>
+            {% if block.settings.image != blank %}
+              {{ block.settings.image | image_url: width: 1600 | image_tag: class: 'custom-simple__image', widths: '375, 600, 900, 1200, 1600', sizes: '(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 160px), 608px', loading: 'lazy' }}
+            {% else %}
+              <img class="custom-simple__image" src="{{ simple_image | asset_url }}" width="608" height="581" alt="">
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="custom-simple__tabs" role="tablist" aria-label="{{ section.settings.heading | escape }}">
+        {% for block in section.blocks %}
+          {% case forloop.index %}
+            {% when 1 %}{% assign simple_icon = 'custom-simple-icon-1.svg' %}
+            {% when 2 %}{% assign simple_icon = 'custom-simple-icon-2.svg' %}
+            {% else %}{% assign simple_icon = 'custom-simple-icon-3.svg' %}
+          {% endcase %}
+          <button class="custom-simple__tab{% if forloop.first %} is-active{% endif %}" type="button" role="tab" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="custom-simple-panel-{{ section.id }}-{{ forloop.index0 }}" data-simple-tab="{{ forloop.index0 }}" {{ block.shopify_attributes }}>
+            <img src="{{ simple_icon | asset_url }}" width="48" height="48" alt="">
+            <span class="custom-simple__tab-copy"><strong>{{ block.settings.title | escape }}</strong><span>{{ block.settings.description | escape }}</span></span>
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</custom-simple-design>
+
+{% stylesheet %}
+  .custom-simple { display: block; width: 100%; padding: 80px clamp(20px, 5.56vw, 80px); overflow: hidden; border-radius: 40px; background: var(--custom-simple-background, #fffbe3); color: var(--custom-simple-text, #111111); font-family: var(--font-primary--family, Montserrat, sans-serif); }
+  .custom-simple__inner { width: min(100%, 1280px); margin-inline: auto; }
+  .custom-simple h2, .custom-simple h3, .custom-simple p { margin: 0; }
+  .custom-simple h2 { font-size: 52px; font-weight: 700; line-height: 1.2; text-align: center; }
+  .custom-simple__layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: center; margin-top: 64px; }
+  .custom-simple__media { position: relative; height: 581px; overflow: hidden; border-radius: 24px; }
+  .custom-simple__panel, .custom-simple__image { width: 100%; height: 100%; }
+  .custom-simple__panel { position: absolute; inset: 0; }
+  .custom-simple__image { display: block; object-fit: cover; border-radius: 24px; }
+  .custom-simple__tabs { display: flex; min-height: 581px; flex-direction: column; justify-content: center; gap: 64px; }
+  .custom-simple__tab { position: relative; display: flex; width: 100%; padding: 0; align-items: center; gap: 24px; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; opacity: .2; transition: opacity .2s ease; }
+  .custom-simple__tab img { width: 48px; height: 48px; flex: 0 0 48px; }
+  .custom-simple__tab-copy { display: flex; min-width: 0; flex: 1 1 auto; flex-direction: column; gap: 8px; }
+  .custom-simple__tab strong { min-width: 0; font-size: 40px; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
+  .custom-simple__tab-copy > span { display: none; width: min(454px, 100%); max-width: 100%; color: var(--custom-simple-secondary, #4d4e4d); font-size: 24px; font-weight: 500; line-height: 1.5; overflow-wrap: anywhere; }
+  .custom-simple__tab.is-active { padding-bottom: 33px; align-items: flex-start; opacity: 1; }
+  .custom-simple__tab.is-active img { width: 92px; height: 92px; flex-basis: 92px; }
+  .custom-simple__tab.is-active .custom-simple__tab-copy > span { display: block; }
+  .custom-simple__tab.is-active::after { position: absolute; bottom: 0; left: 0; width: 100%; height: 1px; background: color-mix(in srgb, var(--custom-simple-text, #111111) 20%, transparent); content: ""; }
+  .custom-simple__tab.is-active::before { position: absolute; z-index: 1; bottom: 0; left: 0; width: 0; height: 2px; background: var(--custom-simple-progress, #009fe3); content: ""; }
+  .custom-simple.is-playing .custom-simple__tab.is-active::before { animation: custom-simple-progress var(--simple-duration, 4500ms) linear forwards; }
+  .custom-simple__mobile-summary { display: none; }
+  @keyframes custom-simple-progress { from { width: 0; } to { width: 100%; } }
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .custom-simple__layout { display: flex; flex-direction: column; align-items: stretch; }
+    .custom-simple__mobile-summary { display: block; order: 1; }
+    .custom-simple__media { order: 2; height: 449px; }
+    .custom-simple__tabs { order: 3; min-height: 0; gap: 64px; }
+    .custom-simple__mobile-copy { display: flex; flex-direction: column; gap: 8px; }
+    .custom-simple__mobile-copy img { width: 80px; height: 80px; margin-bottom: 16px; }
+    .custom-simple__mobile-copy h3 { font-size: 40px; font-weight: 600; line-height: 1.2; }
+    .custom-simple__mobile-copy p { width: 454px; max-width: 100%; color: var(--custom-simple-secondary, #4d4e4d); font-size: 24px; font-weight: 500; line-height: 1.5; }
+    .custom-simple__tab.is-active { display: none; }
+    .custom-simple__tab { padding-top: 24px; border-top: 1px solid color-mix(in srgb, var(--custom-simple-text, #111111) 20%, transparent); opacity: .2; }
+  }
+  @media (max-width: 767px) {
+    .custom-simple { padding: 64px 16px; border-radius: 0; }
+    .custom-simple h2 { font-size: 28px; }
+    .custom-simple__layout { display: flex; flex-direction: column; gap: 32px; align-items: stretch; margin-top: 64px; }
+    .custom-simple__mobile-summary { display: block; order: 1; }
+    .custom-simple__mobile-copy { display: flex; flex-direction: column; gap: 8px; }
+    .custom-simple__mobile-copy img { width: 52px; height: 52px; margin-bottom: 16px; }
+    .custom-simple__mobile-copy h3 { font-size: 28px; font-weight: 600; line-height: 1.2; }
+    .custom-simple__mobile-copy p { color: var(--custom-simple-secondary, #4d4e4d); font-size: 18px; font-weight: 500; line-height: 1.5; }
+    .custom-simple__media { order: 2; height: 340px; }
+    .custom-simple__tabs { order: 3; min-height: 0; gap: 32px; }
+    .custom-simple__tab.is-active { display: none; }
+    .custom-simple__tab { padding-top: 24px; gap: 24px; border-top: 1px solid color-mix(in srgb, var(--custom-simple-text, #111111) 20%, transparent); }
+    .custom-simple__tab strong { font-size: 28px; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('custom-simple-design')) {
+    customElements.define('custom-simple-design', class CustomSimpleDesign extends HTMLElement {
+      connectedCallback() {
+        this.tabs = [...this.querySelectorAll('[data-simple-tab]')];
+        this.panels = [...this.querySelectorAll('[data-simple-panel]')];
+        this.copies = [...this.querySelectorAll('[data-simple-copy]')];
+        this.index = 0;
+        this.duration = Number(this.dataset.interval) || 4500;
+        this.tabs.forEach((tab) => tab.addEventListener('click', () => this.select(Number(tab.dataset.simpleTab))));
+        this.observer = new IntersectionObserver((entries) => entries.forEach((entry) => entry.isIntersecting ? this.play() : this.pause()), { threshold: 0.3 });
+        this.observer.observe(this);
+      }
+      disconnectedCallback() { this.pause(); this.observer?.disconnect(); }
+      select(index) {
+        this.index = index;
+        this.tabs.forEach((tab, tabIndex) => { const active = tabIndex === index; tab.classList.toggle('is-active', active); tab.setAttribute('aria-selected', String(active)); });
+        this.panels.forEach((panel, panelIndex) => { const active = panelIndex === index; panel.classList.toggle('is-active', active); panel.hidden = !active; });
+        this.copies.forEach((copy, copyIndex) => { const active = copyIndex === index; copy.classList.toggle('is-active', active); copy.hidden = !active; });
+        if (this.isVisible) this.play();
+      }
+      play() {
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        this.isVisible = true;
+        this.pauseTimer();
+        this.style.setProperty('--simple-duration', String(this.duration) + 'ms');
+        this.classList.remove('is-playing');
+        requestAnimationFrame(() => this.classList.add('is-playing'));
+        this.timer = window.setTimeout(() => this.select((this.index + 1) % this.tabs.length), this.duration);
+      }
+      pauseTimer() { window.clearTimeout(this.timer); this.timer = null; }
+      pause() { this.isVisible = false; this.pauseTimer(); this.classList.remove('is-playing'); }
+    });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Custom Simple Design",
+  "tag": "section",
+  "class": "custom-simple-design-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Simple by design" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#FFFBE3" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+    { "type": "color", "id": "secondary_text_color", "label": "Body color", "default": "#4D4E4D" },
+    { "type": "color", "id": "progress_color", "label": "Progress color", "default": "#009FE3" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 3,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image override" },
+        { "type": "text", "id": "title", "label": "Title", "default": "1. Give once daily" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Easy to serve as part of your dog’s normal routine." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Simple Design",
+      "blocks": [
+        { "type": "step", "settings": { "title": "1. Give once daily", "description": "Easy to serve as part of your dog’s normal routine." } },
+        { "type": "step", "settings": { "title": "2. Make it a habit", "description": "Same time, same place — consistency is the goal." } },
+        { "type": "step", "settings": { "title": "3. Keep it going", "description": "Love You Daily is designed for long-term daily use." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

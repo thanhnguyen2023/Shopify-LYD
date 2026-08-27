@@ -90,11 +90,47 @@
         "text_color": "#111111",
         "secondary_text_color": "#4d4e4d"
       }
+    },
+    "custom_simple_design": {
+      "type": "custom-simple-design",
+      "blocks": {
+        "step_1": { "type": "step", "settings": { "title": "1. Give once daily", "description": "Easy to serve as part of your dog’s normal routine." } },
+        "step_2": { "type": "step", "settings": { "title": "2. Make it a habit", "description": "Same time, same place — consistency is the goal." } },
+        "step_3": { "type": "step", "settings": { "title": "3. Keep it going", "description": "Love You Daily is designed for long-term daily use." } }
+      },
+      "block_order": ["step_1", "step_2", "step_3"],
+      "settings": {
+        "heading": "Simple by design",
+        "background_color": "#fffbe3",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d",
+        "progress_color": "#009fe3"
+      }
+    },
+    "custom_ingredient_first": {
+      "type": "custom-ingredient-first",
+      "blocks": {
+        "feature_1": { "type": "feature", "settings": { "text": "<p><strong>Human-grade, food-quality ingredients</strong></p>" } },
+        "feature_2": { "type": "feature", "settings": { "text": "<p><strong>Evidence-backed nutrients</strong> commonly used in veterinary nutrition</p>" } },
+        "feature_3": { "type": "feature", "settings": { "text": "<p>Ingredients selected for <strong>both function and palatability</strong></p>" } }
+      },
+      "block_order": ["feature_1", "feature_2", "feature_3"],
+      "settings": {
+        "image": "",
+        "heading": "Ingredient-first. Always.",
+        "intro": "Every ingredient in Loveyou Daily earns its place.",
+        "focus_heading": "We focus on:",
+        "closing_text": "If it doesn’t serve taste and purpose, it doesn’t go in.",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d"
+      }
     }
   },
   "order": [
     "main",
     "custom_caring",
-    "custom_meet_love_you_daily"
+    "custom_meet_love_you_daily",
+    "custom_simple_design",
+    "custom_ingredient_first"
   ]
 }

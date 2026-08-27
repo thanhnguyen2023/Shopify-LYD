@@ -75,13 +75,44 @@
     "custom_meet_love_you_daily": {
       "type": "custom-meet-love-you-daily",
       "blocks": {
-        "feature_1": { "type": "feature", "settings": { "text": "Supports overall wellbeing as dogs age" } },
-        "feature_2": { "type": "feature", "settings": { "text": "Supports skin and coat condition" } },
-        "feature_3": { "type": "feature", "settings": { "text": "Supports digestive comfort and gut balance" } },
-        "feature_4": { "type": "feature", "settings": { "text": "Supports normal energy and vitality" } },
-        "feature_5": { "type": "feature", "settings": { "text": "Supports joint structure and mobility" } }
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "text": "Supports overall wellbeing as dogs age"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "text": "Supports skin and coat condition"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "text": "Supports digestive comfort and gut balance"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "text": "Supports normal energy and vitality"
+          }
+        },
+        "feature_5": {
+          "type": "feature",
+          "settings": {
+            "text": "Supports joint structure and mobility"
+          }
+        }
       },
-      "block_order": ["feature_1", "feature_2", "feature_3", "feature_4", "feature_5"],
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3",
+        "feature_4",
+        "feature_5"
+      ],
       "settings": {
         "heading": "Meet Love You Daily",
         "support_heading": "What Love You\nDaily supports",
@@ -94,11 +125,33 @@
     "custom_simple_design": {
       "type": "custom-simple-design",
       "blocks": {
-        "step_1": { "type": "step", "settings": { "title": "1. Give once daily", "description": "Easy to serve as part of your dog’s normal routine." } },
-        "step_2": { "type": "step", "settings": { "title": "2. Make it a habit", "description": "Same time, same place — consistency is the goal." } },
-        "step_3": { "type": "step", "settings": { "title": "3. Keep it going", "description": "Love You Daily is designed for long-term daily use." } }
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "1. Give once daily",
+            "description": "Easy to serve as part of your dog’s normal routine."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "2. Make it a habit",
+            "description": "Same time, same place — consistency is the goal."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "3. Keep it going",
+            "description": "Love You Daily is designed for long-term daily use."
+          }
+        }
       },
-      "block_order": ["step_1", "step_2", "step_3"],
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
       "settings": {
         "heading": "Simple by design",
         "background_color": "#fffbe3",
@@ -110,13 +163,32 @@
     "custom_ingredient_first": {
       "type": "custom-ingredient-first",
       "blocks": {
-        "feature_1": { "type": "feature", "settings": { "text": "<p><strong>Human-grade, food-quality ingredients</strong></p>" } },
-        "feature_2": { "type": "feature", "settings": { "text": "<p><strong>Evidence-backed nutrients</strong> commonly used in veterinary nutrition</p>" } },
-        "feature_3": { "type": "feature", "settings": { "text": "<p>Ingredients selected for <strong>both function and palatability</strong></p>" } }
+        "feature_1": {
+          "type": "feature",
+          "settings": {
+            "text": "<p><strong>Human-grade, food-quality ingredients</strong></p>"
+          }
+        },
+        "feature_2": {
+          "type": "feature",
+          "settings": {
+            "text": "<p><strong>Evidence-backed nutrients</strong> commonly used in veterinary nutrition</p>"
+          }
+        },
+        "feature_3": {
+          "type": "feature",
+          "settings": {
+            "text": "<p>Ingredients selected for <strong>both function and palatability</strong></p>"
+          }
+        }
       },
-      "block_order": ["feature_1", "feature_2", "feature_3"],
+      "block_order": [
+        "feature_1",
+        "feature_2",
+        "feature_3"
+      ],
       "settings": {
-        "image": "",
+        "image": "shopify://shop_images/Content_Group.png",
         "heading": "Ingredient-first. Always.",
         "intro": "Every ingredient in Loveyou Daily earns its place.",
         "focus_heading": "We focus on:",

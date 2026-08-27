@@ -1,0 +1,44 @@
+{% comment %}
+  Renders a Theme Editor logo, falling back to the exported Figma artwork.
+
+  Accepts:
+  - image: Shopify image setting
+  - variant: 'hero' or 'sticky'
+  - alt: accessible name
+{% endcomment %}
+
+{% liquid
+  assign logo_alt = alt | default: shop.name | escape
+  assign logo_class = 'custom-navbar__logo-image custom-navbar__logo-image--' | append: variant
+%}
+
+{% if image != blank %}
+  {{
+    image
+    | image_url: width: 400
+    | image_tag:
+      class: logo_class,
+      widths: '94, 110, 160, 220, 320, 400',
+      sizes: '(max-width: 767px) 94px, 160px',
+      alt: logo_alt,
+      loading: 'eager'
+  }}
+{% elsif variant == 'sticky' %}
+  <img
+    class="{{ logo_class }}"
+    src="{{ 'custom-navbar-logo-sticky.svg' | asset_url }}"
+    width="160.485"
+    height="62"
+    alt="{{ logo_alt }}"
+    loading="eager"
+  >
+{% else %}
+  <img
+    class="{{ logo_class }}"
+    src="{{ 'custom-navbar-logo-hero.svg' | asset_url }}"
+    width="109.46"
+    height="52.34"
+    alt="{{ logo_alt }}"
+    loading="eager"
+  >
+{% endif %}

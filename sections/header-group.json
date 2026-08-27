@@ -11,12 +11,72 @@
   "type": "header",
   "name": "t:general.header",
   "sections": {
-    "header": {
-      "type": "header",
-      "settings": {}
+    "custom_navbar": {
+      "type": "custom-navbar",
+      "blocks": {
+        "nav_how": {
+          "type": "nav_link",
+          "settings": { "label": "How it works", "url": "#how-it-works" }
+        },
+        "nav_inside": {
+          "type": "nav_link",
+          "settings": { "label": "What’s inside", "url": "#whats-inside" }
+        },
+        "nav_safety": {
+          "type": "nav_link",
+          "settings": { "label": "Safety", "url": "#safety" }
+        },
+        "nav_faq": {
+          "type": "nav_link",
+          "settings": { "label": "FAQ", "url": "#faq" }
+        },
+        "trust_vet": {
+          "type": "trust_item",
+          "settings": { "text": "Vet-formulated" }
+        },
+        "trust_au": {
+          "type": "trust_item",
+          "settings": { "text": "Australian owned & made" }
+        },
+        "trust_dogs": {
+          "type": "trust_item",
+          "settings": { "text": "Loved by dogs (palatability tested)" }
+        },
+        "trust_shipping": {
+          "type": "trust_item",
+          "settings": { "text": "Ships from Australia" }
+        }
+      },
+      "block_order": [
+        "nav_how",
+        "nav_inside",
+        "nav_safety",
+        "nav_faq",
+        "trust_vet",
+        "trust_au",
+        "trust_dogs",
+        "trust_shipping"
+      ],
+      "settings": {
+        "logo_alt": "LoveYou Daily",
+        "menu_label": "Main navigation",
+        "open_menu_label": "Open menu",
+        "close_menu_label": "Close menu",
+        "cta_label": "Join the waitlist",
+        "cta_url": "#waitlist",
+        "enable_sticky": true,
+        "sticky_threshold": 120,
+        "show_trust_bar": true,
+        "trust_bar_label": "Product assurances",
+        "background_color": "#FFFFFF",
+        "text_color": "#111111",
+        "border_color": "#111111",
+        "accent_color": "#FFFBE3",
+        "trust_text_color": "#4D4E4D"
+      }
     }
   },
   "order": [
-    "header"
-  ],
+    "custom_navbar"
+  ]
 }

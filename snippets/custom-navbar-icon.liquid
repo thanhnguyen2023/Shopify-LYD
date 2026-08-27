@@ -1,0 +1,15 @@
+{% comment %}
+  Renders exported Figma icons used by Custom Navbar.
+
+  Accepts:
+  - name: 'menu', 'close', or 'seal-check'
+{% endcomment %}
+
+{% case name %}
+  {% when 'menu' %}
+    {{ 'custom-navbar-menu.svg' | inline_asset_content }}
+  {% when 'close' %}
+    {{ 'custom-navbar-close.svg' | inline_asset_content }}
+  {% when 'seal-check' %}
+    {{ 'custom-navbar-seal-check.svg' | inline_asset_content }}
+{% endcase %}

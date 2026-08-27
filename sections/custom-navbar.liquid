@@ -1,0 +1,709 @@
+<custom-navbar
+  id="CustomNavbar-{{ section.id }}"
+  class="custom-navbar full-width"
+  data-sticky-enabled="{{ section.settings.enable_sticky }}"
+  data-sticky-threshold="{{ section.settings.sticky_threshold }}"
+  data-open-menu-label="{{ section.settings.open_menu_label | escape }}"
+  data-close-menu-label="{{ section.settings.close_menu_label | escape }}"
+  style="
+    --custom-navbar-background: {{ section.settings.background_color }};
+    --custom-navbar-text: {{ section.settings.text_color }};
+    --custom-navbar-border: {{ section.settings.border_color }};
+    --custom-navbar-accent: {{ section.settings.accent_color }};
+    --custom-navbar-trust-text: {{ section.settings.trust_text_color }};
+  "
+>
+  <div class="custom-navbar__hero" data-hero-nav>
+    <a class="custom-navbar__hero-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+      {% render 'custom-navbar-logo', image: section.settings.hero_logo, variant: 'hero', alt: section.settings.logo_alt %}
+    </a>
+
+    <nav class="custom-navbar__desktop-links" aria-label="{{ section.settings.menu_label | escape }}">
+      {% render 'custom-navbar-links', menu: section.settings.menu, blocks: section.blocks, class: 'custom-navbar__link' %}
+    </nav>
+
+    <div class="custom-navbar__actions">
+      {% if section.settings.cta_label != blank %}
+        <a class="custom-navbar__button custom-navbar__hero-cta" href="{{ section.settings.cta_url }}">
+          {{ section.settings.cta_label | escape }}
+        </a>
+      {% endif %}
+
+      <button
+        class="custom-navbar__menu-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="CustomNavbarMenu-{{ section.id }}"
+        aria-label="{{ section.settings.open_menu_label | escape }}"
+        data-menu-toggle
+      >
+        <span class="custom-navbar__menu-glyph custom-navbar__menu-glyph--open" aria-hidden="true">
+          {% render 'custom-navbar-icon', name: 'menu' %}
+        </span>
+        <span class="custom-navbar__menu-glyph custom-navbar__menu-glyph--close" aria-hidden="true">
+          {% render 'custom-navbar-icon', name: 'close' %}
+        </span>
+      </button>
+    </div>
+  </div>
+
+  {% if section.settings.enable_sticky %}
+    <div class="custom-navbar__sticky" data-sticky-nav aria-hidden="true">
+      <div class="custom-navbar__sticky-row">
+        <a class="custom-navbar__sticky-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+          {% render 'custom-navbar-logo', image: section.settings.sticky_logo, variant: 'sticky', alt: section.settings.logo_alt %}
+        </a>
+
+        <div class="custom-navbar__sticky-actions">
+          {% if section.settings.cta_label != blank %}
+            <a class="custom-navbar__button" href="{{ section.settings.cta_url }}">
+              {{ section.settings.cta_label | escape }}
+            </a>
+          {% endif %}
+
+          <button
+            class="custom-navbar__menu-button"
+            type="button"
+            aria-expanded="false"
+            aria-controls="CustomNavbarMenu-{{ section.id }}"
+            aria-label="{{ section.settings.open_menu_label | escape }}"
+            data-menu-toggle
+          >
+            <span class="custom-navbar__menu-glyph custom-navbar__menu-glyph--open" aria-hidden="true">
+              {% render 'custom-navbar-icon', name: 'menu' %}
+            </span>
+            <span class="custom-navbar__menu-glyph custom-navbar__menu-glyph--close" aria-hidden="true">
+              {% render 'custom-navbar-icon', name: 'close' %}
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {% if section.settings.show_trust_bar %}
+        <div class="custom-navbar__trust-bar" aria-label="{{ section.settings.trust_bar_label | escape }}">
+          {% for block in section.blocks %}
+            {% if block.type == 'trust_item' %}
+              {% render 'custom-navbar-trust-item', text: block.settings.text, attributes: block.shopify_attributes %}
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <nav
+    id="CustomNavbarMenu-{{ section.id }}"
+    class="custom-navbar__popover"
+    aria-label="{{ section.settings.menu_label | escape }}"
+    data-menu-popover
+    hidden
+  >
+    {% render 'custom-navbar-links', menu: section.settings.menu, blocks: section.blocks, class: 'custom-navbar__popover-link' %}
+  </nav>
+</custom-navbar>
+
+{% stylesheet %}
+  .custom-navbar {
+    --custom-navbar-global-padding: clamp(20px, 5.56vw, 80px);
+    position: relative;
+    z-index: 20;
+    display: block;
+    color: var(--custom-navbar-text, #111111);
+    font-family: var(--font-primary--family, Montserrat, sans-serif);
+  }
+
+  .custom-navbar a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .custom-navbar__hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 24px 48px 16px;
+    background: var(--custom-navbar-background, #ffffff);
+  }
+
+  .custom-navbar__hero-logo,
+  .custom-navbar__sticky-logo {
+    display: block;
+    flex: 0 0 auto;
+  }
+
+  .custom-navbar__hero-logo {
+    width: 110.582px;
+    height: 52px;
+    overflow: hidden;
+  }
+
+  .custom-navbar__logo-image--hero {
+    width: 109.46px;
+    height: 52.34px;
+    object-fit: contain;
+  }
+
+  .custom-navbar__desktop-links,
+  .custom-navbar__actions,
+  .custom-navbar__sticky-actions {
+    display: flex;
+    align-items: center;
+  }
+
+  .custom-navbar__desktop-links {
+    gap: 24px;
+  }
+
+  .custom-navbar__link,
+  .custom-navbar__popover-link {
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .custom-navbar__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .custom-navbar__actions,
+  .custom-navbar__sticky-actions {
+    justify-content: flex-end;
+    gap: 24px;
+  }
+
+  .custom-navbar__button,
+  .custom-navbar__menu-button {
+    border: 1px solid var(--custom-navbar-border, #111111);
+    background: var(--custom-navbar-background, #ffffff);
+    box-shadow: 3px 3px 0 var(--custom-navbar-border, #111111);
+    color: var(--custom-navbar-text, #111111);
+  }
+
+  .custom-navbar__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 24px;
+    border-radius: 1000px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .custom-navbar__menu-button {
+    position: relative;
+    display: none;
+    flex: 0 0 52px;
+    width: 52px;
+    height: 52px;
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .custom-navbar__menu-glyph {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: block;
+    transform: translate(-50%, -50%);
+  }
+
+  .custom-navbar__menu-glyph--open,
+  .custom-navbar__menu-glyph--open svg {
+    width: 24px;
+    height: 17px;
+  }
+
+  .custom-navbar__menu-glyph--close,
+  .custom-navbar__menu-glyph--close svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .custom-navbar__menu-glyph--close,
+  .custom-navbar__menu-button[aria-expanded='true'] .custom-navbar__menu-glyph--open {
+    display: none;
+  }
+
+  .custom-navbar__menu-button[aria-expanded='true'] .custom-navbar__menu-glyph--close {
+    display: block;
+  }
+
+  .custom-navbar__sticky {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 30;
+    visibility: hidden;
+    background: var(--custom-navbar-background, #ffffff);
+    box-shadow: 0 1px 10px rgb(17 17 17 / 12%);
+    opacity: 0;
+    transform: translateY(-100%);
+    transition: opacity 180ms ease, transform 180ms ease, visibility 180ms ease;
+  }
+
+  .custom-navbar.is-scrolled .custom-navbar__sticky {
+    visibility: visible;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .custom-navbar__sticky-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px var(--custom-navbar-global-padding);
+  }
+
+  .custom-navbar__sticky-logo,
+  .custom-navbar__logo-image--sticky {
+    width: 160.485px;
+    height: 62px;
+  }
+
+  .custom-navbar__logo-image--sticky {
+    object-fit: contain;
+  }
+
+  .custom-navbar__sticky .custom-navbar__menu-button {
+    display: block;
+  }
+
+  .custom-navbar__trust-bar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    padding: 0 var(--custom-navbar-global-padding);
+    overflow-x: auto;
+    background: var(--custom-navbar-accent, #fffbe3);
+    color: var(--custom-navbar-trust-text, #4d4e4d);
+    scrollbar-width: none;
+  }
+
+  .custom-navbar__trust-bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .custom-navbar__trust-item {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px 24px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.5;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .custom-navbar__trust-icon,
+  .custom-navbar__trust-icon svg {
+    display: block;
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+  }
+
+  .custom-navbar__popover {
+    position: absolute;
+    top: 94px;
+    right: 60px;
+    z-index: 40;
+    width: 247px;
+    padding: 24px;
+    border: 1px solid var(--custom-navbar-border, #111111);
+    border-radius: 24px;
+    background: var(--custom-navbar-accent, #fffbe3);
+    box-shadow: 2px 2px 0 var(--custom-navbar-border, #111111);
+  }
+
+  .custom-navbar.is-scrolled .custom-navbar__popover {
+    position: fixed;
+  }
+
+  .custom-navbar__popover[hidden] {
+    display: none;
+  }
+
+  .custom-navbar__popover-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 48px;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .custom-navbar__desktop-links {
+      display: none;
+    }
+
+    .custom-navbar__menu-button {
+      display: block;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .custom-navbar__hero {
+      padding: 24px 20px 16px;
+    }
+
+    .custom-navbar__hero-logo {
+      width: 93.57px;
+      height: 44px;
+    }
+
+    .custom-navbar__logo-image--hero {
+      width: 92.62px;
+      height: 44.288px;
+    }
+
+    .custom-navbar__desktop-links,
+    .custom-navbar__hero-cta {
+      display: none;
+    }
+
+    .custom-navbar__actions {
+      gap: 0;
+    }
+
+    .custom-navbar__menu-button {
+      display: block;
+      flex-basis: 48px;
+      width: 48px;
+      height: 48px;
+    }
+
+    .custom-navbar__sticky-row {
+      padding: 12px 20px;
+    }
+
+    .custom-navbar__sticky-logo,
+    .custom-navbar__logo-image--sticky {
+      width: 124px;
+      height: 48px;
+    }
+
+    .custom-navbar__sticky-actions {
+      gap: 12px;
+    }
+
+    .custom-navbar__sticky-actions .custom-navbar__button {
+      display: none;
+    }
+
+    .custom-navbar__trust-bar {
+      gap: 8px;
+      padding: 0 8px;
+    }
+
+    .custom-navbar__trust-item {
+      padding: 10px 12px;
+      font-size: 14px;
+    }
+
+    .custom-navbar__trust-icon,
+    .custom-navbar__trust-icon svg {
+      flex-basis: 24px;
+      width: 24px;
+      height: 24px;
+    }
+
+    .custom-navbar__popover,
+    .custom-navbar.is-scrolled .custom-navbar__popover {
+      top: 84px;
+      right: 20px;
+      width: min(247px, calc(100vw - 40px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .custom-navbar__sticky {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('custom-navbar')) {
+    customElements.define(
+      'custom-navbar',
+      class CustomNavbar extends HTMLElement {
+        connectedCallback() {
+          this.toggles = Array.from(this.querySelectorAll('[data-menu-toggle]'));
+          this.popover = this.querySelector('[data-menu-popover]');
+          this.sticky = this.querySelector('[data-sticky-nav]');
+          this.threshold = Number(this.dataset.stickyThreshold || 120);
+          this.stickyEnabled = this.dataset.stickyEnabled === 'true';
+          this.wasScrolled = false;
+          this.frame = null;
+
+          this.handleToggle = this.handleToggle.bind(this);
+          this.handleDocumentClick = this.handleDocumentClick.bind(this);
+          this.handleKeydown = this.handleKeydown.bind(this);
+          this.handleScroll = this.handleScroll.bind(this);
+
+          this.toggles.forEach((toggle) => toggle.addEventListener('click', this.handleToggle));
+          this.popover?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => this.closeMenu()));
+          document.addEventListener('click', this.handleDocumentClick);
+          document.addEventListener('keydown', this.handleKeydown);
+          window.addEventListener('scroll', this.handleScroll, { passive: true });
+          this.updateStickyState();
+        }
+
+        disconnectedCallback() {
+          this.toggles?.forEach((toggle) => toggle.removeEventListener('click', this.handleToggle));
+          document.removeEventListener('click', this.handleDocumentClick);
+          document.removeEventListener('keydown', this.handleKeydown);
+          window.removeEventListener('scroll', this.handleScroll);
+          if (this.frame) cancelAnimationFrame(this.frame);
+        }
+
+        handleToggle(event) {
+          event.stopPropagation();
+          const shouldOpen = event.currentTarget.getAttribute('aria-expanded') !== 'true';
+          this.setMenuState(shouldOpen);
+        }
+
+        handleDocumentClick(event) {
+          if (!this.contains(event.target)) this.closeMenu();
+        }
+
+        handleKeydown(event) {
+          if (event.key === 'Escape' && !this.popover?.hidden) {
+            this.closeMenu();
+            this.activeToggle?.focus();
+          }
+        }
+
+        handleScroll() {
+          if (this.frame) return;
+          this.frame = requestAnimationFrame(() => {
+            this.updateStickyState();
+            this.frame = null;
+          });
+        }
+
+        updateStickyState() {
+          const isScrolled = this.stickyEnabled && window.scrollY >= this.threshold;
+          if (isScrolled !== this.wasScrolled) this.closeMenu();
+          this.classList.toggle('is-scrolled', isScrolled);
+          if (this.sticky) this.sticky.setAttribute('aria-hidden', String(!isScrolled));
+          this.wasScrolled = isScrolled;
+        }
+
+        setMenuState(open) {
+          if (!this.popover) return;
+          this.activeToggle = this.toggles.find((toggle) => toggle.offsetParent !== null);
+          this.toggles.forEach((toggle) => {
+            toggle.setAttribute('aria-expanded', String(open));
+            toggle.setAttribute('aria-label', open ? this.dataset.closeMenuLabel : this.dataset.openMenuLabel);
+          });
+          this.popover.hidden = !open;
+        }
+
+        closeMenu() {
+          this.setMenuState(false);
+        }
+      }
+    );
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Custom Navbar",
+  "tag": "section",
+  "class": "custom-navbar-section",
+  "limit": 1,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_logo",
+      "label": "Hero logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "sticky_logo",
+      "label": "Sticky logo"
+    },
+    {
+      "type": "text",
+      "id": "logo_alt",
+      "label": "Logo alt text",
+      "default": "LoveYou Daily"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Menu"
+    },
+    {
+      "type": "text",
+      "id": "menu_label",
+      "label": "Menu accessible label",
+      "default": "Main navigation"
+    },
+    {
+      "type": "text",
+      "id": "open_menu_label",
+      "label": "Menu button accessible label",
+      "default": "Open menu"
+    },
+    {
+      "type": "text",
+      "id": "close_menu_label",
+      "label": "Close button accessible label",
+      "default": "Close menu"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button label",
+      "default": "Join the waitlist"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Sticky navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sticky",
+      "label": "Enable navbar after scrolling",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "sticky_threshold",
+      "min": 0,
+      "max": 1000,
+      "step": 10,
+      "unit": "px",
+      "label": "Show after scrolling",
+      "default": 120
+    },
+    {
+      "type": "checkbox",
+      "id": "show_trust_bar",
+      "label": "Show trust bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "trust_bar_label",
+      "label": "Trust bar accessible label",
+      "default": "Product assurances"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border and shadow",
+      "default": "#111111"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Menu and trust bar background",
+      "default": "#FFFBE3"
+    },
+    {
+      "type": "color",
+      "id": "trust_text_color",
+      "label": "Trust bar text",
+      "default": "#4D4E4D"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Navigation link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Navigation link"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "trust_item",
+      "name": "Trust item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "Vet-formulated"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 12,
+  "presets": [
+    {
+      "name": "Custom Navbar",
+      "blocks": [
+        { "type": "nav_link", "settings": { "label": "How it works" } },
+        { "type": "nav_link", "settings": { "label": "What’s inside" } },
+        { "type": "nav_link", "settings": { "label": "Safety" } },
+        { "type": "nav_link", "settings": { "label": "FAQ" } },
+        { "type": "trust_item", "settings": { "text": "Vet-formulated" } },
+        { "type": "trust_item", "settings": { "text": "Australian owned & made" } },
+        { "type": "trust_item", "settings": { "text": "Loved by dogs (palatability tested)" } },
+        { "type": "trust_item", "settings": { "text": "Ships from Australia" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

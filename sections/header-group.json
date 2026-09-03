@@ -66,12 +66,13 @@
         "cta_url": "#waitlist",
         "enable_sticky": true,
         "sticky_threshold": 10,
-        "show_trust_bar": true,
+        "show_trust_bar": false,
         "trust_bar_label": "Product assurances",
         "background_color": "#FFFFFF",
         "text_color": "#111111",
         "border_color": "#111111",
         "accent_color": "#FFFBE3",
+        "sticky_button_color": "#9FDADE",
         "trust_text_color": "#4D4E4D"
       }
     }

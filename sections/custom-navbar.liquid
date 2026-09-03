@@ -10,6 +10,7 @@
     --custom-navbar-text: {{ section.settings.text_color }};
     --custom-navbar-border: {{ section.settings.border_color }};
     --custom-navbar-accent: {{ section.settings.accent_color }};
+    --custom-navbar-sticky-button: {{ section.settings.sticky_button_color }};
     --custom-navbar-trust-text: {{ section.settings.trust_text_color }};
   "
 >
@@ -53,6 +54,10 @@
         <a class="custom-navbar__sticky-logo" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
           {% render 'custom-navbar-logo', image: section.settings.sticky_logo, variant: 'sticky', alt: section.settings.logo_alt %}
         </a>
+
+        <nav class="custom-navbar__sticky-links" aria-label="{{ section.settings.menu_label | escape }}">
+          {% render 'custom-navbar-links', menu: section.settings.menu, blocks: section.blocks, class: 'custom-navbar__sticky-link' %}
+        </nav>
 
         <div class="custom-navbar__sticky-actions">
           {% if section.settings.cta_label != blank %}
@@ -104,6 +109,28 @@
   </nav>
 </custom-navbar>
 
+<script>
+  (() => {
+    const navbar = document.getElementById('CustomNavbar-{{ section.id }}');
+    if (!navbar || navbar.dataset.stickyFallbackReady === 'true') return;
+
+    const sticky = navbar.querySelector('[data-sticky-nav]');
+    if (!sticky || navbar.dataset.stickyEnabled !== 'true') return;
+
+    navbar.dataset.stickyFallbackReady = 'true';
+    const threshold = Number(navbar.dataset.stickyThreshold || 10);
+    const updateSticky = () => {
+      const isScrolled = window.scrollY >= threshold;
+      navbar.classList.toggle('is-scrolled', isScrolled);
+      sticky.setAttribute('aria-hidden', String(!isScrolled));
+    };
+
+    window.addEventListener('scroll', updateSticky, { passive: true });
+    window.addEventListener('pageshow', updateSticky);
+    requestAnimationFrame(updateSticky);
+  })();
+</script>
+
 {% stylesheet %}
   .custom-navbar-section.shopify-section {
     grid-template-columns: minmax(0, 1fr);
@@ -120,7 +147,7 @@
   .custom-navbar {
     --custom-navbar-global-padding: clamp(20px, 5.56vw, 80px);
     position: relative;
-    z-index: 20;
+    z-index: 100;
     display: block;
     width: 100%;
     max-width: none;
@@ -168,6 +195,7 @@
   }
 
   .custom-navbar__desktop-links,
+  .custom-navbar__sticky-links,
   .custom-navbar__actions,
   .custom-navbar__sticky-actions {
     display: flex;
@@ -175,6 +203,10 @@
   }
 
   .custom-navbar__desktop-links {
+    gap: 24px;
+  }
+
+  .custom-navbar__sticky-links {
     gap: 24px;
   }
 
@@ -191,6 +223,24 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .custom-navbar__sticky-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.5;
+    white-space: nowrap;
+  }
+
+  .custom-navbar__sticky-link:first-child {
+    border: 1px solid var(--custom-navbar-border, #111111);
+    border-radius: 1000px;
+    background: #fff;
+    box-shadow: 3px 3px 0 var(--custom-navbar-border, #111111);
   }
 
   .custom-navbar__actions,
@@ -266,7 +316,7 @@
     top: 0;
     right: 0;
     left: 0;
-    z-index: 30;
+    z-index: 101;
     visibility: hidden;
     background: var(--custom-navbar-background, #ffffff);
     box-shadow: 0 1px 10px rgb(17 17 17 / 12%);
@@ -293,8 +343,8 @@
 
   .custom-navbar__sticky-logo,
   .custom-navbar__logo-image--sticky {
-    width: 160.485px;
-    height: 62px;
+    width: 110.582px;
+    height: 52px;
   }
 
   .custom-navbar__logo-image--sticky {
@@ -302,7 +352,11 @@
   }
 
   .custom-navbar__sticky .custom-navbar__menu-button {
-    display: block;
+    display: none;
+  }
+
+  .custom-navbar__sticky .custom-navbar__button {
+    background: var(--custom-navbar-sticky-button, #9fdade);
   }
 
   .custom-navbar__trust-bar {
@@ -385,7 +439,15 @@
       display: none;
     }
 
+    .custom-navbar__sticky-links {
+      display: none;
+    }
+
     .custom-navbar__menu-button {
+      display: block;
+    }
+
+    .custom-navbar__sticky .custom-navbar__menu-button {
       display: block;
     }
   }
@@ -410,6 +472,7 @@
     }
 
     .custom-navbar__desktop-links,
+    .custom-navbar__sticky-links,
     .custom-navbar__hero-cta {
       display: none;
     }
@@ -431,8 +494,8 @@
 
     .custom-navbar__sticky-logo,
     .custom-navbar__logo-image--sticky {
-      width: 124px;
-      height: 48px;
+      width: 93.57px;
+      height: 44px;
     }
 
     .custom-navbar__sticky-actions {
@@ -685,6 +748,12 @@
       "id": "accent_color",
       "label": "Menu and trust bar background",
       "default": "#FFFBE3"
+    },
+    {
+      "type": "color",
+      "id": "sticky_button_color",
+      "label": "Sticky button background",
+      "default": "#9FDADE"
     },
     {
       "type": "color",

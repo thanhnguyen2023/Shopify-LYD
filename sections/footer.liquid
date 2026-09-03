@@ -1,57 +1,180 @@
-<footer>
-  <div class="footer__copyright">
-    &copy;
-    {{ 'now' | date: '%Y' }}
-    {{ shop.name | link_to: routes.root_url }}, {{ powered_by_link }}
+{% assign custom_footer_year = 'now' | date: '%Y' %}
+{% assign custom_footer_form_id = 'CustomFooterNewsletter-' | append: section.id %}
+
+<footer
+  id="CustomFooter-{{ section.id }}"
+  class="custom-footer full-width"
+  style="--custom-footer-background: {{ section.settings.background_color }}; --custom-footer-text: {{ section.settings.text_color }}; --custom-footer-secondary: {{ section.settings.secondary_text_color }};"
+>
+  <div class="custom-footer__top">
+    <div class="custom-footer__brand">
+      {% if section.settings.logo != blank %}
+        {{ section.settings.logo | image_url: width: 340 | image_tag: class: 'custom-footer__logo', widths: '111, 168, 220, 340', sizes: '(max-width: 767px) 111px, 168px', alt: section.settings.logo_alt, loading: 'lazy' }}
+      {% else %}
+        <img class="custom-footer__logo" src="{{ 'custom-footer-logo.svg' | asset_url }}" width="168" height="80" alt="{{ section.settings.logo_alt | escape }}">
+      {% endif %}
+      <p>{{ section.settings.tagline | escape }}</p>
+      <div class="custom-footer__socials custom-footer__socials--tablet">
+        {% render 'custom-footer-social-link', url: section.settings.instagram_url, label: 'Instagram', icon: 'custom-footer-instagram.svg' %}
+        {% render 'custom-footer-social-link', url: section.settings.facebook_url, label: 'Facebook', icon: 'custom-footer-facebook.svg' %}
+        {% render 'custom-footer-social-link', url: section.settings.linkedin_url, label: 'LinkedIn', icon: 'custom-footer-linkedin.svg' %}
+        {% render 'custom-footer-social-link', url: section.settings.x_url, label: 'X', icon: 'custom-footer-x.svg' %}
+      </div>
+    </div>
+
+    <div class="custom-footer__actions">
+      <div class="custom-footer__link-newsletter">
+        <nav class="custom-footer__navigation" aria-label="Footer">
+          {% for block in section.blocks %}
+            {% if block.type == 'link' and block.settings.label != blank %}
+              <a href="{{ block.settings.url | default: '#' }}" {{ block.shopify_attributes }}>{{ block.settings.label | escape }}</a>
+            {% endif %}
+          {% endfor %}
+        </nav>
+
+        {% form 'customer', id: custom_footer_form_id, class: 'custom-footer__newsletter' %}
+          <input type="hidden" name="contact[tags]" value="newsletter">
+          {% if form.posted_successfully? %}
+            <div class="custom-footer__success" role="status">
+              <strong>{{ section.settings.success_heading | escape }}</strong>
+              <span>{{ section.settings.success_text | escape }}</span>
+            </div>
+          {% else %}
+            <label for="CustomFooterEmail-{{ section.id }}">{{ section.settings.newsletter_label | escape }}</label>
+            <div class="custom-footer__newsletter-row">
+              <div class="custom-footer__input-wrap">
+                <input id="CustomFooterEmail-{{ section.id }}" type="email" name="contact[email]" value="{{ form.email }}" autocomplete="email" placeholder="{{ section.settings.email_placeholder | escape }}" required>
+                <button class="custom-footer__clear" type="button" aria-label="Clear email">
+                  <img src="{{ 'custom-footer-clear.svg' | asset_url }}" width="24" height="24" alt="">
+                </button>
+              </div>
+              <button class="custom-footer__submit" type="submit" aria-label="Subscribe">
+                <img src="{{ 'custom-footer-arrow.svg' | asset_url }}" width="24" height="24" alt="">
+              </button>
+            </div>
+            {% if form.errors %}
+              <p class="custom-footer__error">{{ form.errors.translated_fields.email | capitalize }} {{ form.errors.messages.email }}</p>
+            {% endif %}
+          {% endif %}
+        {% endform %}
+      </div>
+      <div class="custom-footer__socials custom-footer__socials--desktop">
+        {% render 'custom-footer-social-link', url: section.settings.instagram_url, label: 'Instagram', icon: 'custom-footer-instagram.svg' %}
+        {% render 'custom-footer-social-link', url: section.settings.facebook_url, label: 'Facebook', icon: 'custom-footer-facebook.svg' %}
+        {% render 'custom-footer-social-link', url: section.settings.linkedin_url, label: 'LinkedIn', icon: 'custom-footer-linkedin.svg' %}
+        {% render 'custom-footer-social-link', url: section.settings.x_url, label: 'X', icon: 'custom-footer-x.svg' %}
+      </div>
+    </div>
   </div>
 
-  <div class="footer__links">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
-
-  <div class="footer__payment">
-    {% if section.settings.show_payment_icons %}
-      {% for type in shop.enabled_payment_types %}
-        {{ type | payment_type_svg_tag }}
-      {% endfor %}
-    {% endif %}
+  <div class="custom-footer__bottom">
+    <p>{{ section.settings.copyright | replace: '[year]', custom_footer_year | escape }}</p>
+    <p>{{ section.settings.disclaimer | escape }}</p>
   </div>
 </footer>
 
 {% stylesheet %}
-  footer {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 2rem;
+  .custom-footer-section.shopify-section { width: 100%; max-width: none !important; }
+  .custom-footer { display: flex; width: 100%; max-width: none; flex-direction: column; gap: 48px; margin: 0; padding: 80px clamp(20px, 5.56vw, 80px) 48px; background: var(--custom-footer-background, #eacef9); color: var(--custom-footer-text, #111); font-family: var(--font-primary--family, Montserrat, sans-serif); }
+  .custom-footer p { margin: 0; }
+  .custom-footer__top { display: flex; width: min(100%, 1280px); align-items: flex-start; justify-content: space-between; gap: 48px; margin-inline: auto; }
+  .custom-footer__brand { display: flex; width: 411px; max-width: 100%; flex-direction: column; gap: 24px; }
+  .custom-footer__logo { display: block; width: 168px; height: 80px; object-fit: contain; object-position: left center; }
+  .custom-footer__brand > p { color: var(--custom-footer-secondary, #4d4e4d); font-size: 14px; font-weight: 500; line-height: 1.5; }
+  .custom-footer__actions { display: flex; align-items: flex-start; gap: 124px; }
+  .custom-footer__link-newsletter { display: flex; flex-direction: column; gap: 40px; }
+  .custom-footer__navigation { display: flex; gap: 32px; }
+  .custom-footer__navigation a { color: var(--custom-footer-text, #111); font-size: 16px; font-weight: 600; line-height: 1.5; text-decoration: none; white-space: nowrap; }
+  .custom-footer__navigation a:hover { text-decoration: underline; }
+  .custom-footer__newsletter { display: flex; width: 403px; max-width: 100%; flex-wrap: wrap; align-items: flex-end; gap: 8px 12px; }
+  .custom-footer__newsletter > label { width: 100%; font-size: 14px; font-weight: 500; line-height: 1.5; }
+  .custom-footer__newsletter-row { display: flex; width: 100%; align-items: flex-end; gap: 12px; }
+  .custom-footer__input-wrap { display: flex; min-width: 0; flex: 1 1 auto; align-items: center; gap: 12px; overflow: hidden; padding: 12px 16px; border: 1px solid #454545; border-radius: 999px; background: #fff; transition: border-color .2s ease, box-shadow .2s ease; }
+  .custom-footer__input-wrap:focus-within { border-color: #111; box-shadow: 2px 2px 0 #111; }
+  .custom-footer__input-wrap input { width: 100%; min-width: 0; padding: 0; border: 0; outline: 0; background: transparent; color: var(--custom-footer-text, #111); font: inherit; font-size: 16px; font-weight: 500; line-height: 1.5; }
+  .custom-footer__input-wrap input::placeholder { color: #8b8b8b; opacity: 1; }
+  .custom-footer__clear { display: none; flex: 0 0 24px; padding: 0; border: 0; background: transparent; cursor: pointer; }
+  .custom-footer__clear img { display: block; width: 24px; height: 24px; }
+  .custom-footer__input-wrap.has-value .custom-footer__clear { display: block; }
+  .custom-footer__submit, .custom-footer__social-link { display: grid; flex: 0 0 auto; width: 44px; height: 44px; padding: 10px; place-items: center; border: 1px solid #111; border-radius: 999px; background: #fff; cursor: pointer; }
+  .custom-footer__submit img, .custom-footer__social-link img { display: block; width: 24px; height: 24px; }
+  .custom-footer__socials { display: flex; align-items: center; gap: 16px; }
+  .custom-footer__social-link { width: 48px; height: 48px; padding: 12px; }
+  .custom-footer__social-link:hover, .custom-footer__submit:hover { box-shadow: 2px 2px 0 #111; transform: translate(-1px, -1px); }
+  .custom-footer__socials--tablet { display: none; }
+  .custom-footer__success { display: flex; width: 100%; flex-direction: column; gap: 4px; padding: 12px 16px; border-radius: 16px; background: #ffffbe; line-height: 1.5; }
+  .custom-footer__success strong { font-size: 18px; font-weight: 600; }
+  .custom-footer__success span { color: var(--custom-footer-secondary, #4d4e4d); font-size: 14px; }
+  .custom-footer__error { width: 100%; color: #a12622; font-size: 12px; }
+  .custom-footer__bottom { display: flex; width: min(100%, 1280px); align-items: center; justify-content: space-between; gap: 24px; margin-inline: auto; padding-top: 24px; border-top: 1px solid rgba(17, 17, 17, .1); color: #8b8b8b; font-size: 12px; font-weight: 500; line-height: 1.5; }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .custom-footer { gap: 40px; padding: 64px clamp(20px, 7.8vw, 60px) 48px; }
+    .custom-footer__actions { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 40px; }
+    .custom-footer__socials--desktop { display: none; }
+    .custom-footer__socials--tablet { display: flex; }
   }
-  footer a {
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  footer .footer__links,
-  footer .footer__payment {
-    display: flex;
-    gap: 1rem;
+
+  @media (max-width: 767px) {
+    .custom-footer { gap: 20px; padding: 48px 16px 32px; }
+    .custom-footer__top { flex-direction: column; align-items: stretch; gap: 32px; }
+    .custom-footer__brand { width: 100%; flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; }
+    .custom-footer__logo { width: 111px; height: 49px; }
+    .custom-footer__brand > p { max-width: 170px; text-align: right; }
+    .custom-footer__actions { flex-direction: column; gap: 32px; }
+    .custom-footer__link-newsletter { width: 100%; gap: 32px; }
+    .custom-footer__navigation { display: grid; width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .custom-footer__navigation a { text-align: center; }
+    .custom-footer__newsletter { width: 100%; }
+    .custom-footer__socials--desktop { display: flex; }
+    .custom-footer__socials--tablet { display: none; }
+    .custom-footer__bottom { flex-direction: column; align-items: stretch; gap: 12px; text-align: center; }
   }
 {% endstylesheet %}
 
+{% javascript %}
+  document.querySelectorAll('.custom-footer__newsletter').forEach((form) => {
+    if (form.dataset.footerNewsletterReady) return;
+    form.dataset.footerNewsletterReady = 'true';
+    const input = form.querySelector('input[type="email"]');
+    const wrap = form.querySelector('.custom-footer__input-wrap');
+    const clear = form.querySelector('.custom-footer__clear');
+    if (!input || !wrap || !clear) return;
+    const toggleClear = () => wrap.classList.toggle('has-value', input.value.length > 0);
+    input.addEventListener('input', toggleClear);
+    clear.addEventListener('click', () => { input.value = ''; toggleClear(); input.focus(); });
+    toggleClear();
+  });
+{% endjavascript %}
+
 {% schema %}
 {
-  "name": "t:general.footer",
+  "name": "Custom Footer",
+  "class": "custom-footer-section",
   "settings": [
-    {
-      "type": "link_list",
-      "id": "menu",
-      "label": "t:labels.menu"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_payment_icons",
-      "label": "t:labels.show_payment_icons",
-      "default": true
-    }
-  ]
+    { "type": "image_picker", "id": "logo", "label": "Logo" },
+    { "type": "text", "id": "logo_alt", "label": "Logo alt text", "default": "Love You Daily" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "A daily \"wellbeing\" ritual for dogs" },
+    { "type": "text", "id": "newsletter_label", "label": "Newsletter label", "default": "Subscribe to our news:" },
+    { "type": "text", "id": "email_placeholder", "label": "Email placeholder", "default": "Email Address...." },
+    { "type": "text", "id": "success_heading", "label": "Success heading", "default": "Thank you!" },
+    { "type": "text", "id": "success_text", "label": "Success text", "default": "Your submission has been received!" },
+    { "type": "text", "id": "instagram_url", "label": "Instagram URL", "default": "#" },
+    { "type": "text", "id": "facebook_url", "label": "Facebook URL", "default": "#" },
+    { "type": "text", "id": "linkedin_url", "label": "LinkedIn URL", "default": "#" },
+    { "type": "text", "id": "x_url", "label": "X URL", "default": "#" },
+    { "type": "text", "id": "copyright", "label": "Copyright", "default": "© [year] Loveyoudaily. All rights reserved." },
+    { "type": "text", "id": "disclaimer", "label": "Disclaimer", "default": "* For dogs only. Not intended to diagnose, treat, cure or prevent disease." },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#EACEF9" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+    { "type": "color", "id": "secondary_text_color", "label": "Secondary text color", "default": "#4D4E4D" }
+  ],
+  "blocks": [
+    { "type": "link", "name": "Navigation link", "limit": 4, "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "How it works" },
+      { "type": "url", "id": "url", "label": "Link" }
+    ] }
+  ],
+  "presets": [{ "name": "Custom Footer" }]
 }
 {% endschema %}

@@ -13,9 +13,29 @@
   "sections": {
     "footer": {
       "type": "footer",
+      "blocks": {
+        "footer_link_1": { "type": "link", "settings": { "label": "How it works", "url": "#how-it-works" } },
+        "footer_link_2": { "type": "link", "settings": { "label": "What's inside", "url": "#whats-inside" } },
+        "footer_link_3": { "type": "link", "settings": { "label": "Safety", "url": "#safety" } },
+        "footer_link_4": { "type": "link", "settings": { "label": "FAQ", "url": "#faq" } }
+      },
+      "block_order": ["footer_link_1", "footer_link_2", "footer_link_3", "footer_link_4"],
       "settings": {
-        "menu": "",
-        "show_payment_icons": true
+        "logo_alt": "Love You Daily",
+        "tagline": "A daily \"wellbeing\" ritual for dogs",
+        "newsletter_label": "Subscribe to our news:",
+        "email_placeholder": "Email Address....",
+        "success_heading": "Thank you!",
+        "success_text": "Your submission has been received!",
+        "instagram_url": "#",
+        "facebook_url": "#",
+        "linkedin_url": "#",
+        "x_url": "#",
+        "copyright": "© [year] Loveyoudaily. All rights reserved.",
+        "disclaimer": "* For dogs only. Not intended to diagnose, treat, cure or prevent disease.",
+        "background_color": "#EACEF9",
+        "text_color": "#111111",
+        "secondary_text_color": "#4D4E4D"
       }
     }
   },

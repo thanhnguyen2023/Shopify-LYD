@@ -196,6 +196,272 @@
         "text_color": "#111111",
         "secondary_text_color": "#4d4e4d"
       }
+    },
+    "custom_ingredients": {
+      "type": "custom-ingredients",
+      "blocks": {
+        "group_1": {
+          "type": "group",
+          "settings": {
+            "heading": "Digestive comfort & gut support nutrients",
+            "description": "Includes fibres and amino acids used to support digestive comfort, nutrient absorption, and gut balance.",
+            "list_mode": "ingredients",
+            "ingredients": "Psyllium husk|L-Glutamine|Chitosan|Chicory root extract|Inulin (prebiotic fibre)",
+            "list_label": "Ingredients list",
+            "document_label": "Dog Supplement Draft Formula (2)",
+            "document_url": "",
+            "background_color": "#9fdade"
+          }
+        },
+        "group_2": {
+          "type": "group",
+          "settings": {
+            "heading": "Mobility & structural support nutrients",
+            "description": "Includes nutrients commonly used to support normal joint structure and movement as part of healthy ageing.",
+            "list_mode": "image",
+            "ingredients": "Psyllium husk|L-Glutamine|Chitosan|Chicory root extract|Inulin (prebiotic fibre)",
+            "list_label": "Ingredients list",
+            "document_label": "Dog Supplement Draft Formula (2)",
+            "document_url": "",
+            "background_color": "#ffffbe"
+          }
+        },
+        "group_3": {
+          "type": "group",
+          "settings": {
+            "heading": "Skin, coat & cellular nutrition",
+            "description": "Includes nutrients that support normal skin and coat condition and everyday cellular processes.",
+            "list_mode": "ingredients",
+            "ingredients": "Omega-3 powder|Biotin|Zinc gluconate|Vitamin C",
+            "list_label": "Ingredients list",
+            "document_label": "Dog Supplement Draft Formula (2)",
+            "document_url": "",
+            "background_color": "#eacef9"
+          }
+        },
+        "group_4": {
+          "type": "group",
+          "settings": {
+            "heading": "Energy & vitality support",
+            "description": "Includes amino acids and cofactors involved in normal energy metabolism.",
+            "list_mode": "ingredients",
+            "ingredients": "Taurine|L-Carnitine|Coenzyme Q10|Choline bitartrate",
+            "list_label": "Ingredients list",
+            "document_label": "Dog Supplement Draft Formula (2)",
+            "document_url": "",
+            "background_color": "#9fdade"
+          }
+        },
+        "group_5": {
+          "type": "group",
+          "settings": {
+            "heading": "Calm behaviour support",
+            "description": "Includes ingredients commonly used in canine diets to support calm behaviour and stress balance.",
+            "list_mode": "ingredients",
+            "ingredients": "L-Theanine",
+            "list_label": "Ingredients list",
+            "document_label": "Dog Supplement Draft Formula (2)",
+            "document_url": "",
+            "background_color": "#febfad"
+          }
+        },
+        "group_6": {
+          "type": "group",
+          "settings": {
+            "heading": "Antioxidant & wellbeing support",
+            "description": "Includes plant-based extracts used as sources of antioxidants to support overall wellbeing.",
+            "list_mode": "ingredients",
+            "ingredients": "Turmeric extract|Boswellia serrata extract|Milk thistle extract|Rosemary extract (antioxidant role)",
+            "list_label": "Ingredients list",
+            "document_label": "Dog Supplement Draft Formula (2)",
+            "document_url": "",
+            "background_color": "#f9ced9"
+          }
+        },
+        "group_7": {
+          "type": "group",
+          "settings": {
+            "heading": "Transparency line",
+            "description": "All ingredients are included at levels suitable for daily use as part of a balanced canine diet.",
+            "list_mode": "download",
+            "ingredients": "Psyllium husk|L-Glutamine|Chitosan|Chicory root extract|Inulin (prebiotic fibre)",
+            "list_label": "Ingredients list",
+            "document_label": "Dog Supplement Draft Formula (2)",
+            "document_url": "",
+            "background_color": "#f9ced9"
+          }
+        }
+      },
+      "block_order": [
+        "group_1",
+        "group_2",
+        "group_3",
+        "group_4",
+        "group_5",
+        "group_6",
+        "group_7"
+      ],
+      "settings": {
+        "heading": "Ingredients chosen for everyday support",
+        "description": "Our formulation uses a blend of nutritional ingredients commonly included in canine supplements to support normal bodily function and everyday wellbeing — without therapeutic positioning.",
+        "button_label": "Full ingredients + amounts",
+        "button_url": ""
+      }
+    },
+    "custom_safety": {
+      "type": "custom-safety",
+      "blocks": {
+        "point_1": {
+          "type": "feature",
+          "settings": {
+            "text": "Manufactured to strict quality standards"
+          }
+        },
+        "point_2": {
+          "type": "feature",
+          "settings": {
+            "text": "Third-party tested for quality and consistency"
+          }
+        },
+        "point_3": {
+          "type": "feature",
+          "settings": {
+            "text": "Clear daily serving guidance based on dog size"
+          }
+        },
+        "point_4": {
+          "type": "feature",
+          "settings": {
+            "text": "Designed for long-term daily use"
+          }
+        },
+        "point_5": {
+          "type": "feature",
+          "settings": {
+            "text": "No therapeutic claims"
+          }
+        }
+      },
+      "block_order": [
+        "point_1",
+        "point_2",
+        "point_3",
+        "point_4",
+        "point_5"
+      ],
+      "settings": {
+        "heading": "Safety comes first. Always",
+        "disclaimer": "*If your dog is pregnant, has a medical condition, or is taking medication, consult your veterinarian before introducing any new supplement.",
+        "background_color": "#febfad",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d"
+      }
+    },
+    "custom_owners_notice": {
+      "type": "custom-owners-notice",
+      "blocks": {
+        "notice_1": {
+          "type": "card",
+          "settings": {
+            "text": "Dogs enjoying the ritual"
+          }
+        },
+        "notice_2": {
+          "type": "card",
+          "settings": {
+            "text": "Easier daily routines"
+          }
+        },
+        "notice_3": {
+          "type": "card",
+          "settings": {
+            "text": "Visible coat condition improvements over time"
+          }
+        }
+      },
+      "block_order": [
+        "notice_1",
+        "notice_2",
+        "notice_3"
+      ],
+      "settings": {
+        "heading": "What some owners report over time",
+        "description": "While every dog is different, some owners report:",
+        "note": "*Individual experiences vary and depend on consistent daily use.",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d",
+        "card_color": "#febfad",
+        "note_color": "#ffffbe"
+      }
+    },
+    "custom_faq": {
+      "type": "custom-faq",
+      "blocks": {
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "Is Love You Daily a medicine?",
+            "answer": "No. Love You Daily is a daily dog supplement designed to support general wellbeing. It is not a therapeutic or veterinary medicine."
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "How long before I notice changes?",
+            "answer": "Every dog is different. Consistent daily use is important, and individual experiences may vary."
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "Can Love You Daily replace vet care?",
+            "answer": "No. Love You Daily is a supplement and does not replace professional veterinary advice or care."
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "Is it safe to use with other food or supplements?",
+            "answer": "If your dog has a medical condition or takes medication, please speak with your veterinarian first."
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "Is Love You Daily suitable for all dogs?",
+            "answer": "Follow the serving guidance and contact your veterinarian if you have questions about your dog's individual needs."
+          }
+        }
+      },
+      "block_order": [
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5"
+      ],
+      "settings": {
+        "heading": "Frequently Asked Questions",
+        "contact_prefix": "Have more questions? Reach out to us at",
+        "contact_email": "loveyoudaily@hello.com",
+        "background_color": "#febfad",
+        "active_color": "#9fdade",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d"
+      }
+    },
+    "custom_cta": {
+      "type": "custom-cta",
+      "settings": {
+        "heading": "Make wellbeing a daily habit",
+        "description": "Join the waitlist for first access and early pricing",
+        "button_label": "See what's inside",
+        "button_url": "",
+        "background_color": "#f9ced9",
+        "button_color": "#9fdade",
+        "text_color": "#111111",
+        "secondary_text_color": "#4d4e4d"
+      }
     }
   },
   "order": [
@@ -203,6 +469,11 @@
     "custom_caring",
     "custom_meet_love_you_daily",
     "custom_simple_design",
-    "custom_ingredient_first"
+    "custom_ingredient_first",
+    "custom_ingredients",
+    "custom_safety",
+    "custom_owners_notice",
+    "custom_faq",
+    "custom_cta"
   ]
 }

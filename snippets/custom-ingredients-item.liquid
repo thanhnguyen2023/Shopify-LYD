@@ -1,0 +1,13 @@
+{% assign ingredient_asset = 'custom-ingredients-psyllium.png' %}
+{% case index %}
+  {% when 2 %}{% assign ingredient_asset = 'custom-ingredients-glutamine.png' %}
+  {% when 3 %}{% assign ingredient_asset = 'custom-ingredients-chitosan.png' %}
+  {% when 4 %}{% assign ingredient_asset = 'custom-ingredients-chicory.png' %}
+  {% when 5 %}{% assign ingredient_asset = 'custom-ingredients-inulin.png' %}
+{% endcase %}
+<div class="custom-ingredients__ingredient">
+  <span class="custom-ingredients__ingredient-image">
+    <img src="{{ ingredient_asset | asset_url }}" width="60" height="60" alt="">
+  </span>
+  <span>{{ text | escape }}</span>
+</div>

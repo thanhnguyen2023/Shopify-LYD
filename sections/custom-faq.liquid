@@ -1,0 +1,153 @@
+<custom-faq
+  id="CustomFaq-{{ section.id }}"
+  class="custom-faq"
+  style="--custom-faq-background: {{ section.settings.background_color }}; --custom-faq-text: {{ section.settings.text_color }}; --custom-faq-secondary: {{ section.settings.secondary_text_color }}; --custom-faq-active: {{ section.settings.active_color }};"
+>
+  <div class="custom-faq__inner">
+    <div class="custom-faq__heading">
+      <h2>{{ section.settings.heading | escape }}</h2>
+      <p>
+        {{ section.settings.contact_prefix | escape }}
+        {% if section.settings.contact_email != blank %}
+          <a href="mailto:{{ section.settings.contact_email | escape }}">{{ section.settings.contact_email | escape }}</a>
+        {% endif %}
+      </p>
+    </div>
+
+    <div class="custom-faq__panel">
+      <div class="custom-faq__items">
+        {% for block in section.blocks %}
+          <article class="custom-faq__item{% if forloop.first %} is-open{% endif %}" {{ block.shopify_attributes }}>
+            <button class="custom-faq__trigger" type="button" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}">
+              <span>{{ block.settings.question | escape }}</span>
+              <span class="custom-faq__icon" aria-hidden="true">
+                <img src="{{ 'custom-faq-arrow.svg' | asset_url }}" width="24" height="24" alt="">
+              </span>
+            </button>
+            <div class="custom-faq__answer"{% unless forloop.first %} hidden{% endunless %}>
+              <div>{{ block.settings.answer | escape | newline_to_br }}</div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <div class="custom-faq__image-wrap">
+        {% if section.settings.image != blank %}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: class: 'custom-faq__image', widths: '375, 600, 900, 1200, 1400', sizes: '(max-width: 767px) calc(100vw - 64px), (max-width: 1023px) calc(100vw - 120px), 50vw', loading: 'lazy' }}
+        {% else %}
+          <img class="custom-faq__image" src="{{ 'custom-faq-image.png' | asset_url }}" width="1333" height="2000" alt="">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</custom-faq>
+
+{% stylesheet %}
+  .custom-faq { display: block; padding: 80px clamp(20px, 5.56vw, 80px); color: var(--custom-faq-text, #111); font-family: var(--font-primary--family, Montserrat, sans-serif); }
+  .custom-faq__inner { display: flex; flex-direction: column; gap: 64px; width: min(100%, 1280px); margin-inline: auto; }
+  .custom-faq h2, .custom-faq p { margin: 0; }
+  .custom-faq__heading { display: flex; align-items: center; justify-content: space-between; gap: 32px; }
+  .custom-faq h2 { font-size: 52px; font-weight: 700; line-height: 1.2; }
+  .custom-faq__heading p { width: min(454px, 100%); color: var(--custom-faq-secondary, #4d4e4d); font-size: 16px; line-height: 1.5; text-align: right; }
+  .custom-faq__heading a { color: var(--custom-faq-text, #111); font-weight: 600; text-decoration: none; }
+  .custom-faq__heading a:hover { text-decoration: underline; }
+  .custom-faq__panel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: stretch; gap: 64px; padding: 48px; border-radius: 32px; background: var(--custom-faq-background, #febfad); }
+  .custom-faq__items { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
+  .custom-faq__item { border: 1px solid transparent; border-radius: 16px; background: #fff; transition: background .35s ease, border-color .35s ease, box-shadow .35s ease; }
+  .custom-faq__item.is-open { border-color: #111; background: var(--custom-faq-active, #9fdade); box-shadow: 8px 8px 0 #111; }
+  .custom-faq__trigger { display: flex; width: 100%; padding: 24px; align-items: center; justify-content: space-between; gap: 16px; border: 0; border-radius: 16px; background: transparent; color: var(--custom-faq-text, #111); font: inherit; font-size: 24px; font-weight: 600; line-height: 1.5; text-align: left; cursor: pointer; }
+  .custom-faq__trigger > span:first-child { min-width: 0; }
+  .custom-faq__icon { display: flex; flex: 0 0 auto; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 999px; background: rgba(138, 186, 191, .15); transition: background .35s ease, box-shadow .35s ease, transform .35s ease; }
+  .custom-faq__icon img { width: 24px; height: 24px; transition: transform .35s ease; }
+  .custom-faq__item.is-open .custom-faq__icon { background: #fff; box-shadow: 2px 2px 0 #111; }
+  .custom-faq__item.is-open .custom-faq__icon img { transform: rotate(180deg); }
+  .custom-faq__answer { overflow: hidden; padding: 0 24px 24px; color: var(--custom-faq-text, #111); font-size: 16px; line-height: 1.5; opacity: 1; transition: opacity .3s ease; }
+  .custom-faq__answer[hidden] { display: none; }
+  .custom-faq__image-wrap { position: relative; min-height: 100%; overflow: hidden; border: 2px solid #111; border-radius: 16px; }
+  .custom-faq__image { display: block; width: 100%; height: 100%; min-height: 497px; object-fit: cover; }
+
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .custom-faq { padding: 64px clamp(20px, 7.8vw, 60px); }
+    .custom-faq__heading { align-items: flex-start; flex-direction: column; gap: 24px; }
+    .custom-faq__heading p { text-align: left; }
+    .custom-faq__panel { display: flex; flex-direction: column; gap: 64px; }
+    .custom-faq__image-wrap { height: 497px; min-height: 0; }
+    .custom-faq__image { min-height: 0; object-position: center 36%; }
+  }
+
+  @media (max-width: 767px) {
+    .custom-faq { padding: 48px 16px; }
+    .custom-faq__inner { gap: 64px; }
+    .custom-faq__heading { align-items: flex-start; flex-direction: column; gap: 24px; }
+    .custom-faq h2 { font-size: 32px; }
+    .custom-faq__heading p { text-align: left; }
+    .custom-faq__panel { display: flex; flex-direction: column; gap: 64px; padding: 16px; border-radius: 24px; }
+    .custom-faq__items { gap: 24px; }
+    .custom-faq__trigger { padding: 16px; font-size: 18px; align-items: flex-start; }
+    .custom-faq__answer { padding: 0 16px 16px; font-size: 14px; }
+    .custom-faq__image-wrap { height: 308px; min-height: 0; }
+    .custom-faq__image { min-height: 0; object-position: center 42%; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('custom-faq')) {
+    customElements.define('custom-faq', class CustomFaq extends HTMLElement {
+      connectedCallback() {
+        this.items = Array.from(this.querySelectorAll('.custom-faq__item'));
+        this.items.forEach((item) => {
+          item.querySelector('.custom-faq__trigger').addEventListener('click', () => this.openItem(item));
+        });
+      }
+
+      openItem(activeItem) {
+        this.items.forEach((item) => {
+          const isActive = item === activeItem;
+          item.classList.toggle('is-open', isActive);
+          item.querySelector('.custom-faq__trigger').setAttribute('aria-expanded', String(isActive));
+          item.querySelector('.custom-faq__answer').hidden = !isActive;
+        });
+      }
+    });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Custom FAQ",
+  "tag": "section",
+  "class": "custom-faq-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Frequently Asked Questions" },
+    { "type": "text", "id": "contact_prefix", "label": "Contact text", "default": "Have more questions? Reach out to us at" },
+    { "type": "text", "id": "contact_email", "label": "Contact email", "default": "loveyoudaily@hello.com" },
+    { "type": "color", "id": "background_color", "label": "Panel color", "default": "#FEBFAD" },
+    { "type": "color", "id": "active_color", "label": "Active FAQ color", "default": "#9FDADE" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+    { "type": "color", "id": "secondary_text_color", "label": "Body color", "default": "#4D4E4D" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "Question",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Is Love You Daily a medicine?" },
+        { "type": "textarea", "id": "answer", "label": "Answer", "default": "No. Love You Daily is a daily dog supplement designed to support general wellbeing. It is not a therapeutic or veterinary medicine." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom FAQ",
+      "blocks": [
+        { "type": "faq", "settings": { "question": "Is Love You Daily a medicine?", "answer": "No. Love You Daily is a daily dog supplement designed to support general wellbeing. It is not a therapeutic or veterinary medicine." } },
+        { "type": "faq", "settings": { "question": "How long before I notice changes?", "answer": "Every dog is different. Consistent daily use is important, and individual experiences may vary." } },
+        { "type": "faq", "settings": { "question": "Can Love You Daily replace vet care?", "answer": "No. Love You Daily is a supplement and does not replace professional veterinary advice or care." } },
+        { "type": "faq", "settings": { "question": "Is it safe to use with other food or supplements?", "answer": "If your dog has a medical condition or takes medication, please speak with your veterinarian first." } },
+        { "type": "faq", "settings": { "question": "Is Love You Daily suitable for all dogs?", "answer": "Follow the serving guidance and contact your veterinarian if you have questions about your dog's individual needs." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

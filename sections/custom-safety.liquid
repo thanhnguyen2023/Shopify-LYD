@@ -1,0 +1,143 @@
+<custom-safety
+  id="CustomSafety-{{ section.id }}"
+  class="custom-safety full-width"
+  style="--custom-safety-background: {{ section.settings.background_color }}; --custom-safety-text: {{ section.settings.text_color }}; --custom-safety-secondary: {{ section.settings.secondary_text_color }};"
+>
+  <div class="custom-safety__inner">
+    <div class="custom-safety__image-wrap">
+      {% if section.settings.image != blank %}
+        {{ section.settings.image | image_url: width: 1600 | image_tag: class: 'custom-safety__image', widths: '375, 600, 900, 1200, 1600', sizes: '(max-width: 767px) calc(100vw - 32px), (max-width: 1023px) calc(100vw - 120px), 50vw', loading: 'lazy' }}
+      {% else %}
+        <img class="custom-safety__image" src="{{ 'custom-safety-image.png' | asset_url }}" width="2000" height="1333" alt="">
+      {% endif %}
+    </div>
+
+    <div class="custom-safety__content">
+      <div class="custom-safety__main">
+        <div class="custom-safety__title">
+          <h2>{{ section.settings.heading | escape }}</h2>
+          <img src="{{ 'custom-safety-accent.svg' | asset_url }}" width="12.04" height="37.814" alt="">
+        </div>
+
+        <div class="custom-safety__features">
+          {% for block in section.blocks %}
+            {% render 'custom-safety-feature', block: block %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <p class="custom-safety__disclaimer">{{ section.settings.disclaimer | escape }}</p>
+    </div>
+  </div>
+</custom-safety>
+
+{% stylesheet %}
+  .custom-safety-section.shopify-section { width: 100%; max-width: none !important; }
+  .custom-safety { display: block; width: 100%; max-width: none; margin: 0; padding: 80px clamp(20px, 5.56vw, 80px); background: var(--custom-safety-background, #febfad); color: var(--custom-safety-text, #111111); font-family: var(--font-primary--family, Montserrat, sans-serif); }
+  .custom-safety__inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 560px); width: min(100%, 1280px); gap: 64px; align-items: stretch; margin-inline: auto; }
+  .custom-safety h2, .custom-safety p { margin: 0; }
+  .custom-safety__image-wrap { min-height: 570px; overflow: hidden; border: 1.5px solid #111; border-radius: 24px; }
+  .custom-safety__image { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .custom-safety__content { display: flex; min-width: 0; flex-direction: column; justify-content: space-between; gap: 64px; }
+  .custom-safety__main { display: flex; flex-direction: column; gap: 24px; }
+  .custom-safety__title { position: relative; padding-bottom: 8px; }
+  .custom-safety h2 { max-width: 100%; font-size: 52px; font-weight: 700; line-height: 1.2; }
+  .custom-safety__title img { position: absolute; top: 80px; left: 200px; width: 12.04px; height: 37.814px; }
+  .custom-safety__features { display: flex; flex-direction: column; gap: 8px; }
+  .custom-safety__feature { display: flex; width: 100%; padding: 24px; align-items: center; gap: 8px; border-radius: 16px; background: #fff; color: var(--custom-safety-secondary, #4d4e4d); font-size: 16px; font-weight: 500; line-height: 1.5; }
+  .custom-safety__feature img { width: 24px; height: 24px; flex: 0 0 24px; }
+  .custom-safety__feature p { min-width: 0; }
+  .custom-safety__disclaimer { color: var(--custom-safety-secondary, #4d4e4d); font-size: 14px; font-weight: 400; line-height: 1.5; }
+  .custom-safety.is-revealing .custom-safety__title,
+  .custom-safety.is-revealing .custom-safety__image-wrap,
+  .custom-safety.is-revealing .custom-safety__feature,
+  .custom-safety.is-revealing .custom-safety__disclaimer { animation-fill-mode: both; }
+  .custom-safety.is-revealing .custom-safety__title { animation: custom-safety-reveal .7s ease-out both; }
+  .custom-safety.is-revealing .custom-safety__image-wrap { animation: custom-safety-image .85s .3s cubic-bezier(.22, 1, .36, 1) both; }
+  .custom-safety.is-revealing .custom-safety__feature { animation: custom-safety-reveal .65s ease-out both; }
+  .custom-safety.is-revealing .custom-safety__feature:nth-child(1) { animation-delay: .7s; }
+  .custom-safety.is-revealing .custom-safety__feature:nth-child(2) { animation-delay: .88s; }
+  .custom-safety.is-revealing .custom-safety__feature:nth-child(3) { animation-delay: 1.06s; }
+  .custom-safety.is-revealing .custom-safety__feature:nth-child(4) { animation-delay: 1.24s; }
+  .custom-safety.is-revealing .custom-safety__feature:nth-child(5) { animation-delay: 1.42s; }
+  .custom-safety.is-revealing .custom-safety__disclaimer { animation: custom-safety-reveal .65s 1.7s ease-out both; }
+  @keyframes custom-safety-reveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes custom-safety-image { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: scale(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .custom-safety.is-revealing *, .custom-safety.is-revealing { animation: none; }
+  }
+
+  @media (max-width: 1023px) {
+    .custom-safety { padding: 64px clamp(20px, 7.8vw, 60px); }
+    .custom-safety__inner { display: flex; flex-direction: column; gap: 64px; }
+    .custom-safety__image-wrap { order: 1; min-height: 638px; }
+    .custom-safety__content { order: 2; gap: 64px; }
+  }
+
+  @media (max-width: 767px) {
+    .custom-safety { padding: 48px 16px; }
+    .custom-safety__inner, .custom-safety__content { gap: 64px; }
+    .custom-safety__image-wrap { min-height: 327px; }
+    .custom-safety h2 { font-size: 32px; }
+    .custom-safety__title img { top: 48px; left: 122px; }
+    .custom-safety__feature { padding: 16px; align-items: flex-start; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('custom-safety')) {
+    customElements.define('custom-safety', class CustomSafety extends HTMLElement {
+      connectedCallback() {
+        this.revealTarget = this.querySelector('.custom-safety__inner');
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting || this.hasRevealed || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+            this.hasRevealed = true;
+            this.classList.add('is-revealing');
+            this.observer.disconnect();
+          });
+        }, { threshold: 0.3 });
+        this.observer.observe(this.revealTarget);
+      }
+      disconnectedCallback() { this.observer?.disconnect(); }
+    });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Custom Safety",
+  "tag": "section",
+  "class": "custom-safety-section",
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Safety comes first. Always" },
+    { "type": "textarea", "id": "disclaimer", "label": "Disclaimer", "default": "*If your dog is pregnant, has a medical condition, or is taking medication, consult your veterinarian before introducing any new supplement." },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#FEBFAD" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#111111" },
+    { "type": "color", "id": "secondary_text_color", "label": "Body color", "default": "#4D4E4D" }
+  ],
+  "blocks": [
+    {
+      "type": "feature",
+      "name": "Safety point",
+      "limit": 5,
+      "settings": [
+        { "type": "text", "id": "text", "label": "Text", "default": "Manufactured to strict quality standards" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Safety",
+      "blocks": [
+        { "type": "feature", "settings": { "text": "Manufactured to strict quality standards" } },
+        { "type": "feature", "settings": { "text": "Third-party tested for quality and consistency" } },
+        { "type": "feature", "settings": { "text": "Clear daily serving guidance based on dog size" } },
+        { "type": "feature", "settings": { "text": "Designed for long-term daily use" } },
+        { "type": "feature", "settings": { "text": "No therapeutic claims" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

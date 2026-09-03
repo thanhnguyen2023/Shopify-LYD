@@ -1,0 +1,252 @@
+<custom-ingredients id="CustomIngredients-{{ section.id }}" class="custom-ingredients">
+  <div class="custom-ingredients__inner">
+    <div class="custom-ingredients__header">
+      <h2>{{ section.settings.heading | escape }}</h2>
+      <div class="custom-ingredients__header-copy">
+        <p>{{ section.settings.description | escape }}</p>
+        {% if section.settings.button_label != blank %}
+          <a class="custom-ingredients__button" href="{{ section.settings.button_url | default: '#' }}">{{ section.settings.button_label | escape }}</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="custom-ingredients__carousel" aria-live="polite">
+      {% for block in section.blocks %}
+        <article class="custom-ingredients__slide{% if forloop.first %} is-active{% endif %}" data-ingredient-slide="{{ forloop.index0 }}" {% unless forloop.first %}hidden{% endunless %} style="--slide-background: {{ block.settings.background_color }};" {{ block.shopify_attributes }}>
+          <div class="custom-ingredients__copy">
+            <div>
+              <h3>{{ block.settings.heading | escape }}</h3>
+              <p>{{ block.settings.description | escape }}</p>
+            </div>
+
+            {% if block.settings.list_mode == 'image' %}
+              <div class="custom-ingredients__list custom-ingredients__list--image">
+                <img src="{{ 'custom-ingredients-mobility-list.png' | asset_url }}" width="457" height="368" alt="{{ block.settings.list_label | escape }}">
+                <strong>{{ block.settings.list_label | escape }}</strong>
+              </div>
+            {% elsif block.settings.list_mode == 'download' %}
+              <div class="custom-ingredients__list custom-ingredients__list--download">
+                <div>
+                  <strong>Expandable link:</strong>
+                  <span>View full ingredient list &amp; nutritional information</span>
+                </div>
+                <a href="{{ block.settings.document_url | default: '#' }}">
+                  <span><img src="{{ 'custom-ingredients-download.svg' | asset_url }}" width="24" height="24" alt=""></span>
+                  {{ block.settings.document_label | escape }}
+                  <img src="{{ 'custom-ingredients-download.svg' | asset_url }}" width="24" height="24" alt="">
+                </a>
+              </div>
+            {% else %}
+              {% assign ingredients = block.settings.ingredients | split: '|' %}
+              <div class="custom-ingredients__list">
+                {% for ingredient in ingredients %}
+                  {% render 'custom-ingredients-item', index: forloop.index, text: ingredient %}
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <p class="custom-ingredients__trust"><img src="{{ 'custom-ingredients-seal.svg' | asset_url }}" width="24" height="24" alt=""> Formulated &amp; Produced in Australia</p>
+          </div>
+
+          <img class="custom-ingredients__orbit" src="{{ 'custom-ingredients-orbit.svg' | asset_url }}" width="715" height="715" alt="">
+          <img class="custom-ingredients__float custom-ingredients__float--one" src="{{ 'custom-ingredients-float.png' | asset_url }}" width="164" height="141" alt="">
+          <img class="custom-ingredients__float custom-ingredients__float--two" src="{{ 'custom-ingredients-float.png' | asset_url }}" width="126" height="108" alt="">
+          <div class="custom-ingredients__product">
+            {% if block.settings.product_image != blank %}
+              {{ block.settings.product_image | image_url: width: 1400 | image_tag: class: 'custom-ingredients__product-image', widths: '400, 600, 900, 1200, 1400', sizes: '(max-width: 767px) 323px, (max-width: 1023px) 516px, 613px', loading: 'lazy' }}
+            {% else %}
+              <img class="custom-ingredients__product-image" src="{{ 'custom-ingredients-product.png' | asset_url }}" width="613" height="737" alt="">
+            {% endif %}
+          </div>
+        </article>
+      {% endfor %}
+
+      <div class="custom-ingredients__navigation">
+        <button type="button" data-ingredient-previous aria-label="Previous ingredient group"><img src="{{ 'custom-ingredients-previous.svg' | asset_url }}" width="24" height="24" alt=""></button>
+        <button type="button" data-ingredient-next aria-label="Next ingredient group"><img src="{{ 'custom-ingredients-next.svg' | asset_url }}" width="24" height="24" alt=""></button>
+      </div>
+    </div>
+  </div>
+</custom-ingredients>
+
+{% stylesheet %}
+  .custom-ingredients { display: block; width: 100%; padding: 80px clamp(20px, 5.56vw, 80px); font-family: var(--font-primary--family, Montserrat, sans-serif); }
+  .custom-ingredients__inner { width: min(100%, 1280px); margin-inline: auto; }
+  .custom-ingredients h2, .custom-ingredients h3, .custom-ingredients p { margin: 0; }
+  .custom-ingredients__header { display: flex; justify-content: space-between; gap: 64px; }
+  .custom-ingredients h2 { width: 732px; max-width: 100%; color: #111; font-size: 52px; font-weight: 700; line-height: 1.2; }
+  .custom-ingredients__header-copy { display: flex; width: 454px; max-width: 100%; flex-direction: column; align-items: flex-start; gap: 24px; }
+  .custom-ingredients__header-copy > p { color: #4d4e4d; font-size: 16px; font-weight: 400; line-height: 1.5; }
+  .custom-ingredients__button { display: inline-flex; padding: 12px 24px; align-items: center; justify-content: center; border: 1px solid #111; border-radius: 999px; box-shadow: 3px 3px 0 #111; background: #eacef9; color: #111; font-size: 16px; font-weight: 600; line-height: 1.5; text-decoration: none; }
+  .custom-ingredients__carousel { position: relative; margin-top: 64px; }
+  .custom-ingredients__slide { position: relative; display: flex; height: 697px; padding: 40px; align-items: flex-end; overflow: hidden; border: 1.5px solid #111; border-radius: 32px; box-shadow: 8px 8px 0 #111; background: var(--slide-background, #9fdade); }
+  .custom-ingredients__slide[hidden] { display: none; }
+  .custom-ingredients__copy { position: relative; z-index: 3; display: flex; width: 651px; max-width: 56%; height: 100%; flex-direction: column; justify-content: space-between; }
+  .custom-ingredients__copy > div:first-child { display: flex; flex-direction: column; gap: 16px; }
+  .custom-ingredients h3 { color: #111; font-size: 40px; font-weight: 600; line-height: 1.2; }
+  .custom-ingredients__copy > div:first-child p { color: #4d4e4d; font-size: 16px; font-weight: 400; line-height: 1.5; }
+  .custom-ingredients__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); width: 457px; max-width: 100%; padding: 16px; gap: 24px; border-radius: 24px; background: #f6f0cb; }
+  .custom-ingredients__list--image { position: relative; display: block; height: 368px; padding: 0; overflow: hidden; }
+  .custom-ingredients__list--image > img { width: 100%; height: 100%; object-fit: cover; }
+  .custom-ingredients__list--image > strong { position: absolute; right: 16px; bottom: 16px; color: #fff; font-size: 24px; font-weight: 600; line-height: 1.5; }
+  .custom-ingredients__list--download { display: flex; height: 368px; flex-direction: column; align-items: stretch; align-content: flex-start; grid-template-columns: none; background: #fffbe3; }
+  .custom-ingredients__list--download > div { display: flex; flex-direction: column; gap: 8px; color: #4d4e4d; font-size: 14px; font-weight: 400; line-height: 1.5; }
+  .custom-ingredients__list--download strong { color: #111; font-size: 16px; font-weight: 600; }
+  .custom-ingredients__list--download a { display: flex; padding: 8px; align-items: center; gap: 16px; border-radius: 8px; background: #fff; color: #111; font-size: 16px; font-weight: 600; line-height: 1.5; text-decoration: none; }
+  .custom-ingredients__list--download a > span { display: grid; width: 40px; height: 40px; place-items: center; border-radius: 8px; background: #9fdade; }
+  .custom-ingredients__list--download a > span img, .custom-ingredients__list--download a > img { width: 24px; height: 24px; flex: 0 0 24px; }
+  .custom-ingredients__list--download a > img { margin-left: auto; }
+  .custom-ingredients__ingredient { display: flex; min-width: 0; min-height: 96px; flex-direction: column; align-items: center; justify-content: center; gap: 12px; color: #111; font-size: 16px; font-weight: 600; line-height: 1.5; text-align: center; }
+  .custom-ingredients__ingredient-image { display: grid; width: 60px; height: 60px; place-items: center; overflow: hidden; border: 1px solid rgb(17 17 17 / 10%); border-radius: 16px; background: #fff; }
+  .custom-ingredients__ingredient-image img { display: block; width: 60px; height: 60px; object-fit: contain; }
+  .custom-ingredients__trust { display: flex; align-items: center; gap: 8px; color: #4d4e4d; font-size: 14px; font-weight: 500; line-height: 1.5; }
+  .custom-ingredients__trust img { width: 24px; height: 24px; }
+  .custom-ingredients__orbit { position: absolute; top: 153px; left: 58%; width: 715px; height: 715px; }
+  .custom-ingredients__float { position: absolute; z-index: 2; object-fit: cover; filter: blur(2px); }
+  .custom-ingredients__float--one { top: 128px; left: 52%; width: 164px; height: 141px; transform: rotate(-39deg); }
+  .custom-ingredients__float--two { top: 332px; left: 47%; width: 126px; height: 108px; transform: rotate(75deg); }
+  .custom-ingredients__product { position: absolute; top: 39px; left: 57%; z-index: 1; width: 613px; height: 737px; overflow: hidden; border-radius: 16px; transform: rotate(2.77deg); }
+  .custom-ingredients__product-image { display: block; width: 100%; height: 100%; object-fit: cover; object-position: 28% 0; }
+  .custom-ingredients__navigation { position: absolute; right: 40px; bottom: 40px; z-index: 5; display: flex; gap: 16px; }
+  .custom-ingredients__navigation button { display: grid; width: 48px; height: 48px; padding: 12px; place-items: center; border: 0; border-radius: 999px; background: #fff; cursor: pointer; }
+  .custom-ingredients__navigation img { width: 24px; height: 24px; }
+  .custom-ingredients__slide.is-entering { animation: custom-ingredients-slide-in .45s cubic-bezier(.22, 1, .36, 1) both; }
+  .custom-ingredients__slide.is-from-previous { animation-name: custom-ingredients-slide-in-previous; }
+  .custom-ingredients__slide.is-entering .custom-ingredients__copy > div:first-child,
+  .custom-ingredients__slide.is-entering .custom-ingredients__list,
+  .custom-ingredients__slide.is-entering .custom-ingredients__trust,
+  .custom-ingredients__slide.is-entering .custom-ingredients__orbit,
+  .custom-ingredients__slide.is-entering .custom-ingredients__product,
+  .custom-ingredients__slide.is-entering .custom-ingredients__float {
+    animation-fill-mode: both;
+  }
+  .custom-ingredients__slide.is-entering .custom-ingredients__copy > div:first-child { animation: custom-ingredients-reveal .4s .08s ease-out both; }
+  .custom-ingredients__slide.is-entering .custom-ingredients__list { animation: custom-ingredients-reveal .4s .2s ease-out both; }
+  .custom-ingredients__slide.is-entering .custom-ingredients__trust { animation: custom-ingredients-reveal .4s .32s ease-out both; }
+  .custom-ingredients__slide.is-entering .custom-ingredients__orbit { animation: custom-ingredients-orbit .45s .2s cubic-bezier(.22, 1, .36, 1) both; }
+  .custom-ingredients__slide.is-entering .custom-ingredients__product { animation: custom-ingredients-product .48s .36s cubic-bezier(.22, 1, .36, 1) both; }
+  .custom-ingredients__slide.is-entering .custom-ingredients__float--one { animation: custom-ingredients-float .35s .27s ease-out both; }
+  .custom-ingredients__slide.is-entering .custom-ingredients__float--two { animation: custom-ingredients-float .35s .32s ease-out both; }
+  @keyframes custom-ingredients-slide-in { from { opacity: 0; transform: translateX(48px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes custom-ingredients-slide-in-previous { from { opacity: 0; transform: translateX(-48px); } to { opacity: 1; transform: translateX(0); } }
+  @keyframes custom-ingredients-reveal { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes custom-ingredients-orbit { from { opacity: 0; transform: scale(.72); } to { opacity: 1; transform: scale(1); } }
+  @keyframes custom-ingredients-product { from { opacity: 0; transform: translateY(32px) rotate(2.77deg); } to { opacity: 1; transform: translateY(0) rotate(2.77deg); } }
+  @keyframes custom-ingredients-float { from { opacity: 0; } to { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) {
+    .custom-ingredients__slide.is-entering,
+    .custom-ingredients__slide.is-entering * { animation: none; }
+  }
+
+  @media (max-width: 1023px) {
+    .custom-ingredients { padding: 64px clamp(20px, 7.8vw, 60px); }
+    .custom-ingredients__header { flex-direction: column; gap: 24px; }
+    .custom-ingredients h2, .custom-ingredients__header-copy { width: 100%; }
+    .custom-ingredients__slide { height: 1025px; padding: 24px; align-items: flex-start; }
+    .custom-ingredients__copy { width: 100%; max-width: 100%; height: auto; gap: 24px; }
+    .custom-ingredients__list { width: 100%; }
+    .custom-ingredients__trust { order: 3; }
+    .custom-ingredients__orbit { top: 705px; left: 10%; width: 600px; height: 600px; }
+    .custom-ingredients__product { top: 400px; left: 46%; width: 516px; height: 620px; }
+    .custom-ingredients__float--one { top: 388px; left: 40%; }
+    .custom-ingredients__float--two { top: 493px; left: 28%; }
+    .custom-ingredients__navigation { right: 24px; bottom: 24px; }
+  }
+
+  @media (max-width: 767px) {
+    .custom-ingredients { padding: 48px 16px; }
+    .custom-ingredients__header { gap: 16px; }
+    .custom-ingredients h2 { font-size: 32px; }
+    .custom-ingredients__header-copy { gap: 16px; }
+    .custom-ingredients__carousel { margin-top: 32px; }
+    .custom-ingredients__slide { height: 961px; padding: 24px; border-radius: 32px; }
+    .custom-ingredients h3 { font-size: 32px; }
+    .custom-ingredients__list { gap: 24px; }
+    .custom-ingredients__ingredient { font-size: 14px; }
+    .custom-ingredients__orbit { top: 706px; left: 16%; width: 349px; height: 349px; }
+    .custom-ingredients__product { top: 602px; left: 16%; width: 323px; height: 388px; }
+    .custom-ingredients__float--one { top: 712px; left: -12%; width: 114px; height: 97px; }
+    .custom-ingredients__float--two { top: 798px; left: 25%; width: 89px; height: 76px; }
+    .custom-ingredients__navigation { right: 24px; bottom: 24px; }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  if (!customElements.get('custom-ingredients')) {
+    customElements.define('custom-ingredients', class CustomIngredients extends HTMLElement {
+      connectedCallback() {
+        this.slides = [...this.querySelectorAll('[data-ingredient-slide]')];
+        this.index = 0;
+        this.querySelector('[data-ingredient-previous]')?.addEventListener('click', () => this.select(this.index - 1, 'previous'));
+        this.querySelector('[data-ingredient-next]')?.addEventListener('click', () => this.select(this.index + 1, 'next'));
+        this.playEntrance(this.slides[0], 'next');
+      }
+      select(index, direction) {
+        this.index = (index + this.slides.length) % this.slides.length;
+        this.slides.forEach((slide, slideIndex) => {
+          const active = slideIndex === this.index;
+          slide.classList.toggle('is-active', active);
+          slide.hidden = !active;
+          if (active) this.playEntrance(slide, direction);
+        });
+      }
+      playEntrance(slide, direction) {
+        if (!slide || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        slide.classList.remove('is-entering', 'is-from-previous');
+        void slide.offsetWidth;
+        slide.classList.toggle('is-from-previous', direction === 'previous');
+        slide.classList.add('is-entering');
+      }
+    });
+  }
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Custom Ingredients",
+  "tag": "section",
+  "class": "custom-ingredients-section",
+  "settings": [
+    { "type": "textarea", "id": "heading", "label": "Heading", "default": "Ingredients chosen for everyday support" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "Our formulation uses a blend of nutritional ingredients commonly included in canine supplements to support normal bodily function and everyday wellbeing — without therapeutic positioning." },
+    { "type": "text", "id": "button_label", "label": "Button label", "default": "Full ingredients + amounts" },
+    { "type": "url", "id": "button_url", "label": "Button link" }
+  ],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Ingredient group",
+      "limit": 7,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Digestive comfort & gut support nutrients" },
+        { "type": "textarea", "id": "description", "label": "Description", "default": "Includes fibres and amino acids used to support digestive comfort, nutrient absorption, and gut balance." },
+        { "type": "select", "id": "list_mode", "label": "List style", "default": "ingredients", "options": [
+          { "value": "ingredients", "label": "Ingredient cards" },
+          { "value": "image", "label": "Ingredient list image" },
+          { "value": "download", "label": "Transparency download" }
+        ] },
+        { "type": "textarea", "id": "ingredients", "label": "Ingredients (separate with |)", "default": "Psyllium husk|L-Glutamine|Chitosan|Chicory root extract|Inulin (prebiotic fibre)" },
+        { "type": "text", "id": "list_label", "label": "Image list label", "default": "Ingredients list" },
+        { "type": "text", "id": "document_label", "label": "Document label", "default": "Dog Supplement Draft Formula (2)" },
+        { "type": "url", "id": "document_url", "label": "Document link" },
+        { "type": "image_picker", "id": "product_image", "label": "Product image override" },
+        { "type": "color", "id": "background_color", "label": "Background color", "default": "#9FDADE" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Ingredients",
+      "blocks": [
+        { "type": "group", "settings": { "heading": "Digestive comfort & gut support nutrients", "description": "Includes fibres and amino acids used to support digestive comfort, nutrient absorption, and gut balance.", "ingredients": "Psyllium husk|L-Glutamine|Chitosan|Chicory root extract|Inulin (prebiotic fibre)", "background_color": "#9FDADE" } },
+        { "type": "group", "settings": { "heading": "Mobility & structural support nutrients", "description": "Includes nutrients commonly used to support normal joint structure and movement as part of healthy ageing.", "list_mode": "image", "list_label": "Ingredients list", "background_color": "#FFFFBE" } },
+        { "type": "group", "settings": { "heading": "Skin, coat & cellular nutrition", "description": "Includes nutrients that support normal skin and coat condition and everyday cellular processes.", "ingredients": "Omega-3 powder|Biotin|Zinc gluconate|Vitamin C", "background_color": "#EACEF9" } },
+        { "type": "group", "settings": { "heading": "Energy & vitality support", "description": "Includes amino acids and cofactors involved in normal energy metabolism.", "ingredients": "Taurine|L-Carnitine|Coenzyme Q10|Choline bitartrate", "background_color": "#9FDADE" } },
+        { "type": "group", "settings": { "heading": "Calm behaviour support", "description": "Includes ingredients commonly used in canine diets to support calm behaviour and stress balance.", "ingredients": "L-Theanine", "background_color": "#FEBFAD" } },
+        { "type": "group", "settings": { "heading": "Antioxidant & wellbeing support", "description": "Includes plant-based extracts used as sources of antioxidants to support overall wellbeing.", "ingredients": "Turmeric extract|Boswellia serrata extract|Milk thistle extract|Rosemary extract (antioxidant role)", "background_color": "#F9CED9" } },
+        { "type": "group", "settings": { "heading": "Transparency line", "description": "All ingredients are included at levels suitable for daily use as part of a balanced canine diet.", "list_mode": "download", "background_color": "#F9CED9" } }
+      ]
+    }
+  ]
+}
+{% endschema %}
